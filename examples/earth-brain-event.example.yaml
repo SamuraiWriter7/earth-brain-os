@@ -36,15 +36,14 @@ tags:
 - "v0.2"
 
 layer_order:
-
-* "ai_agent_layer"
-* "optical_nervous_layer"
-* "knowledge_cortex_layer"
-* "trace_attribution_layer"
-* "royalty_circulation_layer"
-* "kazene_regulation_layer"
-* "defense_immune_layer"
-* "human_governance_layer"
+  - "ai_agent_layer"
+  - "optical_nervous_layer"
+  - "knowledge_cortex_layer"
+  - "trace_attribution_layer"
+  - "royalty_circulation_layer"
+  - "kazene_regulation_layer"
+  - "defense_immune_layer"
+  - "human_governance_layer"
 
 layers:
 ai_agent_layer:
