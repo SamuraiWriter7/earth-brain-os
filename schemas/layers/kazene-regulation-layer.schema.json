@@ -1,0 +1,766 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/kazene-regulation-layer.schema.json",
+"title": "Kazene Regulation Layer",
+"description": "Schema for the Kazene Regulation Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines breathing regulation, pressure release, rhythm control, resonance balancing, semantic drift monitoring, flow moderation, human-centered adjustment, and governance hooks.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"layer_name",
+"layer_type",
+"layer_version",
+"status",
+"regulation_scope",
+"regulation_signals",
+"breathing_model",
+"pressure_model",
+"resonance_model",
+"flow_control_model",
+"input_events",
+"output_events",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Stable identifier for this layer instance.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"layer:kazene-regulation"
+]
+},
+"layer_name": {
+"type": "string",
+"const": "Kazene Regulation Layer",
+"description": "Human-readable name of the layer."
+},
+"layer_type": {
+"type": "string",
+"const": "kazene_regulation_layer",
+"description": "Machine-readable layer type."
+},
+"layer_version": {
+"type": "string",
+"description": "Version of this layer schema or implementation profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"status": {
+"type": "string",
+"description": "Operational status of the layer.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short explanation of this Kazene Regulation Layer configuration."
+},
+"regulation_scope": {
+"$ref": "#/$defs/regulation_scope"
+},
+"regulation_signals": {
+"type": "array",
+"description": "Signals observed by this layer for rhythm, pressure, resonance, drift, and flow regulation.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/regulation_signal"
+}
+},
+"breathing_model": {
+"$ref": "#/$defs/breathing_model"
+},
+"pressure_model": {
+"$ref": "#/$defs/pressure_model"
+},
+"resonance_model": {
+"$ref": "#/$defs/resonance_model"
+},
+"flow_control_model": {
+"$ref": "#/$defs/flow_control_model"
+},
+"drift_monitoring": {
+"$ref": "#/$defs/drift_monitoring"
+},
+"regulation_controls": {
+"$ref": "#/$defs/regulation_controls"
+},
+"input_events": {
+"type": "array",
+"description": "Events or signals accepted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"output_events": {
+"type": "array",
+"description": "Events or signals emitted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"linked_layers": {
+"type": "array",
+"description": "Other Earth Brain OS layers directly connected to this layer.",
+"items": {
+"$ref": "#/$defs/layer_reference"
+},
+"default": []
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
+}
+},
+"$defs": {
+"regulation_scope": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"regulation_domains",
+"regulation_mode",
+"human_centered_priority",
+"intervention_level",
+"minimum_yohaku_policy"
+],
+"properties": {
+"regulation_domains": {
+"type": "array",
+"description": "Domains where Kazene-style regulation is applied.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"agent_behavior",
+"reasoning_rhythm",
+"knowledge_flow",
+"trace_pressure",
+"royalty_circulation",
+"governance_load",
+"defense_response",
+"human_interaction",
+"semantic_drift",
+"system_health",
+"other"
+]
+}
+},
+"regulation_mode": {
+"type": "string",
+"description": "Primary mode of regulation used by this layer.",
+"enum": [
+"breathing_control",
+"pressure_release",
+"rhythm_adjustment",
+"resonance_balancing",
+"flow_moderation",
+"yohaku_preservation",
+"hybrid",
+"other"
+]
+},
+"human_centered_priority": {
+"type": "string",
+"description": "Degree to which human cognitive load, interpretation, and agency are prioritized.",
+"enum": [
+"low",
+"medium",
+"high",
+"required"
+]
+},
+"intervention_level": {
+"type": "string",
+"description": "Maximum intervention level allowed for this regulation layer.",
+"enum": [
+"observe_only",
+"recommend_adjustment",
+"soft_adjustment",
+"temporary_throttle",
+"hard_stop",
+"escalate_to_governance"
+]
+},
+"minimum_yohaku_policy": {
+"type": "string",
+"description": "Policy for preserving margin, pause, silence, or interpretive space in the system."
+},
+"boundary_conditions": {
+"type": "array",
+"description": "Boundary conditions limiting regulation, throttling, or automatic intervention.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"regulation_signal": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"signal_id",
+"signal_type",
+"source_layer",
+"measurement_method",
+"sensitivity",
+"response_policy"
+],
+"properties": {
+"signal_id": {
+"type": "string",
+"description": "Stable identifier for the regulation signal.",
+"pattern": "^regulation-signal:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"regulation-signal:agent-pressure"
+]
+},
+"signal_type": {
+"type": "string",
+"description": "Type of signal observed by the Kazene Regulation Layer.",
+"enum": [
+"pressure",
+"rhythm",
+"resonance",
+"semantic_drift",
+"load",
+"latency",
+"conflict",
+"fatigue",
+"over_optimization",
+"feedback_noise",
+"circulation_imbalance",
+"governance_burden",
+"defense_alert",
+"other"
+]
+},
+"source_layer": {
+"type": "string",
+"description": "Layer from which this regulation signal is observed.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"measurement_method": {
+"type": "string",
+"description": "How this signal is measured or estimated.",
+"enum": [
+"manual_review",
+"metric_threshold",
+"agent_assessment",
+"human_feedback",
+"trace_analysis",
+"semantic_analysis",
+"governance_review",
+"hybrid",
+"other"
+]
+},
+"sensitivity": {
+"type": "string",
+"description": "Sensitivity level for this signal.",
+"enum": [
+"low",
+"medium",
+"high",
+"critical"
+]
+},
+"response_policy": {
+"type": "string",
+"description": "Policy for responding when this signal exceeds normal range."
+},
+"threshold_ref": {
+"type": "string",
+"description": "Optional reference to threshold definition, metric, or policy."
+}
+}
+},
+"breathing_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"breathing_pattern",
+"rhythm_policy",
+"pause_policy",
+"recovery_policy"
+],
+"properties": {
+"breathing_pattern": {
+"type": "string",
+"description": "Primary breathing pattern used to regulate system rhythm.",
+"enum": [
+"steady",
+"slow_cycle",
+"burst_and_rest",
+"adaptive",
+"human_paced",
+"event_driven",
+"other"
+]
+},
+"rhythm_policy": {
+"type": "string",
+"description": "Policy for controlling the rhythm of reasoning, event processing, or interaction."
+},
+"pause_policy": {
+"type": "string",
+"description": "Policy for inserting pauses, waiting states, review windows, or silence."
+},
+"recovery_policy": {
+"type": "string",
+"description": "Policy for recovering from overload, excessive recursion, or high-pressure event flow."
+},
+"maximum_burst_duration": {
+"type": "string",
+"description": "Optional human-readable limit for high-intensity processing bursts."
+},
+"minimum_rest_interval": {
+"type": "string",
+"description": "Optional human-readable minimum rest or cooling interval."
+}
+}
+},
+"pressure_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"pressure_sources",
+"pressure_detection_method",
+"release_strategy",
+"overload_response"
+],
+"properties": {
+"pressure_sources": {
+"type": "array",
+"description": "Sources of pressure that this layer monitors.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"agent_recursion",
+"decision_load",
+"information_density",
+"governance_backlog",
+"trace_volume",
+"royalty_dispute",
+"security_alert",
+"human_cognitive_load",
+"latency_spike",
+"social_pressure",
+"other"
+]
+}
+},
+"pressure_detection_method": {
+"type": "string",
+"description": "How pressure is detected.",
+"enum": [
+"threshold",
+"trend_analysis",
+"human_feedback",
+"agent_self_report",
+"trace_signal",
+"semantic_density",
+"hybrid",
+"other"
+]
+},
+"release_strategy": {
+"type": "string",
+"description": "How accumulated pressure is released or redistributed.",
+"enum": [
+"slow_down",
+"defer",
+"summarize",
+"route_to_review",
+"split_task",
+"reduce_scope",
+"insert_yohaku",
+"escalate",
+"hybrid",
+"other"
+]
+},
+"overload_response": {
+"type": "string",
+"description": "Response when pressure exceeds the safe operating range."
+},
+"pressure_threshold_policy": {
+"type": "string",
+"description": "Policy for defining pressure thresholds."
+}
+}
+},
+"resonance_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"resonance_targets",
+"balance_method",
+"misalignment_response",
+"noise_tolerance_policy"
+],
+"properties": {
+"resonance_targets": {
+"type": "array",
+"description": "Targets whose resonance or alignment should be balanced.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"human_intent",
+"agent_output",
+"knowledge_context",
+"trace_integrity",
+"royalty_fairness",
+"governance_principle",
+"defense_signal",
+"public_interest",
+"system_health",
+"other"
+]
+}
+},
+"balance_method": {
+"type": "string",
+"description": "Method for balancing resonance across layers."
+},
+"misalignment_response": {
+"type": "string",
+"description": "Response when resonance between layers becomes unstable or misaligned."
+},
+"noise_tolerance_policy": {
+"type": "string",
+"description": "Policy for tolerating useful noise, ambiguity, or creative uncertainty without over-filtering."
+},
+"q_point_ref": {
+"type": "string",
+"description": "Optional reference to Q-Point, question-origin, or resonance scoring model."
+}
+}
+},
+"flow_control_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"flow_control_strategy",
+"throttle_policy",
+"routing_adjustment_policy",
+"fallback_flow_policy"
+],
+"properties": {
+"flow_control_strategy": {
+"type": "string",
+"description": "Primary strategy for controlling event and signal flow.",
+"enum": [
+"passive_observation",
+"soft_throttle",
+"adaptive_throttle",
+"priority_queue",
+"human_paced_flow",
+"governance_gated_flow",
+"defense_gated_flow",
+"hybrid",
+"other"
+]
+},
+"throttle_policy": {
+"type": "string",
+"description": "Policy for slowing, batching, or deferring event flow."
+},
+"routing_adjustment_policy": {
+"type": "string",
+"description": "Policy for rerouting events when pressure, drift, or conflict is detected."
+},
+"fallback_flow_policy": {
+"type": "string",
+"description": "Fallback policy when normal event flow becomes unsafe, unstable, or overloaded."
+},
+"priority_classes": {
+"type": "array",
+"description": "Optional flow priority classes used by this layer.",
+"items": {
+"type": "string",
+"enum": [
+"low",
+"normal",
+"high",
+"urgent",
+"critical",
+"human_review",
+"safety_stop"
+]
+},
+"default": []
+}
+}
+},
+"drift_monitoring": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"semantic_drift_detection": {
+"type": "boolean",
+"description": "Whether semantic drift detection is enabled."
+},
+"behavioral_drift_detection": {
+"type": "boolean",
+"description": "Whether behavioral drift detection is enabled."
+},
+"governance_drift_detection": {
+"type": "boolean",
+"description": "Whether governance drift detection is enabled."
+},
+"drift_detection_method": {
+"type": "string",
+"description": "Method used to detect drift.",
+"enum": [
+"manual_review",
+"trace_comparison",
+"semantic_similarity",
+"policy_alignment_check",
+"human_feedback",
+"agent_self_check",
+"hybrid",
+"other"
+]
+},
+"drift_response_policy": {
+"type": "string",
+"description": "Policy for responding to detected drift."
+},
+"drift_threshold_ref": {
+"type": "string",
+"description": "Optional reference to drift threshold definitions."
+}
+},
+"default": {}
+},
+"regulation_controls": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"soft_stop_enabled": {
+"type": "boolean",
+"description": "Whether soft-stop controls are enabled."
+},
+"hard_stop_enabled": {
+"type": "boolean",
+"description": "Whether hard-stop controls are enabled."
+},
+"human_override_enabled": {
+"type": "boolean",
+"description": "Whether human override is enabled."
+},
+"cooldown_policy": {
+"type": "string",
+"description": "Policy for cooling down overheated reasoning, circulation, or governance processes."
+},
+"rollback_strategy": {
+"type": "string",
+"description": "How this layer should roll back, slow down, or suspend unstable regulation outcomes."
+},
+"monitoring_signals": {
+"type": "array",
+"description": "Signals monitored for regulation health.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+},
+"default": {}
+},
+"event_port": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_type",
+"direction",
+"description"
+],
+"properties": {
+"event_type": {
+"type": "string",
+"description": "Machine-readable event or signal type.",
+"pattern": "^[a-z][a-z0-9.*-]*$",
+"examples": [
+"kazene.regulation.applied"
+]
+},
+"direction": {
+"type": "string",
+"description": "Direction of the event relative to this layer.",
+"enum": [
+"input",
+"output"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the event."
+},
+"source_layer": {
+"type": "string",
+"description": "Optional source layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_layer": {
+"type": "string",
+"description": "Optional target layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for this event."
+}
+}
+},
+"layer_reference": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"relationship"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Referenced Earth Brain OS layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"relationship": {
+"type": "string",
+"description": "Relationship between this layer and the referenced layer.",
+"enum": [
+"receives_from",
+"sends_to",
+"regulates",
+"balances",
+"throttles",
+"stabilizes",
+"audited_by",
+"protected_by",
+"governed_by",
+"other"
+]
+},
+"description": {
+"type": "string"
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"regulation_logging_required",
+"intervention_logging_required",
+"human_feedback_logging_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether regulation activity must produce trace records."
+},
+"regulation_logging_required": {
+"type": "boolean",
+"description": "Whether regulation decisions must be logged."
+},
+"intervention_logging_required": {
+"type": "boolean",
+"description": "Whether interventions such as throttling, pause, or stop actions must be logged."
+},
+"human_feedback_logging_required": {
+"type": "boolean",
+"description": "Whether human feedback used for regulation must be logged."
+},
+"provenance_fields": {
+"type": "array",
+"description": "Required provenance fields for regulation records.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for this layer."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents, rules, or schemas applied to this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"regulation_policy_refs": {
+"type": "array",
+"description": "Breathing, rhythm, pressure, yohaku, or flow regulation policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"safety_policy_refs": {
+"type": "array",
+"description": "Safety, defense, or stability policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known failure modes to monitor.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+}
+}
+}
