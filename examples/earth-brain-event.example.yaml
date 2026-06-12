@@ -54,7 +54,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "AI agents that observe, plan, route, and execute bounded tasks under trace and governance controls."
 
-```
 agent_scope:
   operating_domains:
     - "reasoning"
@@ -154,7 +153,6 @@ governance_hooks:
     - "agent_overreach"
     - "untraced_action"
     - "governance_bypass"
-```
 
 optical_nervous_layer:
 layer_id: "layer:optical-nervous"
@@ -164,7 +162,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "High-speed signal transmission layer connecting agents, knowledge, trace, royalty, defense, and governance modules."
 
-```
 network_scope:
   transport_medium: "hybrid_network"
   operating_domains:
@@ -279,7 +276,6 @@ governance_hooks:
     - "lost_signal"
     - "untraced_route"
     - "routing_loop"
-```
 
 knowledge_cortex_layer:
 layer_id: "layer:knowledge-cortex"
@@ -289,7 +285,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "Knowledge, memory, semantic context, retrieval, and validation layer for Earth Brain OS."
 
-```
 knowledge_scope:
   knowledge_domains:
     - "scientific"
@@ -416,7 +411,6 @@ governance_hooks:
     - "source_conflict"
     - "unverified_claim"
     - "context_loss"
-```
 
 trace_attribution_layer:
 layer_id: "layer:trace-attribution"
@@ -426,7 +420,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "Trace, provenance, origin attribution, permission status, and audit layer."
 
-```
 attribution_scope:
   trace_domains:
     - "knowledge_use"
@@ -561,7 +554,6 @@ governance_hooks:
     - "attribution_dispute"
     - "permission_violation"
     - "trace_gap"
-```
 
 royalty_circulation_layer:
 layer_id: "layer:royalty-circulation"
@@ -571,7 +563,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "Value circulation, royalty routing, allocation, settlement, and public return layer."
 
-```
 circulation_scope:
   circulation_domains:
     - "knowledge_use"
@@ -727,7 +718,6 @@ governance_hooks:
     - "allocation_dispute"
     - "route_failure"
     - "value_capture"
-```
 
 kazene_regulation_layer:
 layer_id: "layer:kazene-regulation"
@@ -737,7 +727,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "Breathing, pressure release, rhythm regulation, resonance balancing, and yohaku preservation layer."
 
-```
 regulation_scope:
   regulation_domains:
     - "agent_behavior"
@@ -887,7 +876,6 @@ governance_hooks:
     - "over_throttling"
     - "missed_pressure"
     - "loss_of_yohaku"
-```
 
 defense_immune_layer:
 layer_id: "layer:defense-immune"
@@ -897,7 +885,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "Anomaly detection, threat classification, quarantine, recovery, and immune defense layer."
 
-```
 immune_scope:
   defense_domains:
     - "agent_behavior"
@@ -1061,7 +1048,6 @@ governance_hooks:
     - "false_positive_quarantine"
     - "missed_threat"
     - "overblocking"
-```
 
 human_governance_layer:
 layer_id: "layer:human-governance"
@@ -1071,7 +1057,6 @@ layer_version: "v0.2.0-candidate"
 status: "experimental"
 description: "Human oversight, review, accountability, consent, appeal, public-interest, and final governance layer."
 
-```
 governance_scope:
   governance_domains:
     - "agent_oversight"
@@ -1232,78 +1217,76 @@ governance_hooks:
     - "unaccountable_decision"
     - "missing_rationale"
     - "governance_capture"
-```
 
 cross_layer_links:
+  - link_id: "cross-layer-link:agent-to-knowledge"
+    source_layer: "ai_agent_layer"
+    target_layer: "knowledge_cortex_layer"
+    relationship: "queries"
+    description: "AI agents query the Knowledge Cortex Layer for validated context."
+    event_types:
+      - event_type: "knowledge.query.requested"
+        required: true
 
-* link_id: "cross-layer-link:agent-to-knowledge"
-  source_layer: "ai_agent_layer"
-  target_layer: "knowledge_cortex_layer"
-  relationship: "queries"
-  description: "AI agents query the Knowledge Cortex Layer for validated context."
-  event_types:
+  - link_id: "cross-layer-link:knowledge-to-trace"
+    source_layer: "knowledge_cortex_layer"
+    target_layer: "trace_attribution_layer"
+    relationship: "traces"
+    description: "Knowledge use is traced and attributed before downstream circulation."
+    event_types:
+      - event_type: "trace.record.requested"
+      - event_type: "trace.record.created"
+        required: true
 
-  * "knowledge.query.requested"
-    required: true
-* link_id: "cross-layer-link:knowledge-to-trace"
-  source_layer: "knowledge_cortex_layer"
-  target_layer: "trace_attribution_layer"
-  relationship: "traces"
-  description: "Knowledge use is traced and attributed before downstream circulation."
-  event_types:
+  - link_id: "cross-layer-link:trace-to-royalty"
+    source_layer: "trace_attribution_layer"
+    target_layer: "royalty_circulation_layer"
+    relationship: "allocates_for"
+    description: "Attribution records are routed into value circulation."
+    event_types:
+      - event_type: "royalty.route.requested"
+      - event_type: "royalty.route.created"
+        required: true
 
-  * "trace.record.requested"
-  * "trace.record.created"
-    required: true
-* link_id: "cross-layer-link:trace-to-royalty"
-  source_layer: "trace_attribution_layer"
-  target_layer: "royalty_circulation_layer"
-  relationship: "allocates_for"
-  description: "Attribution records are routed into value circulation."
-  event_types:
+  - link_id: "cross-layer-link:royalty-to-kazene"
+    source_layer: "royalty_circulation_layer"
+    target_layer: "kazene_regulation_layer"
+    relationship: "regulates"
+    description: "Kazene Regulation Layer moderates pressure and imbalance in value circulation."
+    event_types:
+      - event_type: "kazene.regulation.requested"
+      - event_type: "kazene.regulation.applied"
+        required: true
 
-  * "royalty.route.requested"
-  * "royalty.route.created"
-    required: true
-* link_id: "cross-layer-link:royalty-to-kazene"
-  source_layer: "royalty_circulation_layer"
-  target_layer: "kazene_regulation_layer"
-  relationship: "regulates"
-  description: "Kazene Regulation Layer moderates pressure and imbalance in value circulation."
-  event_types:
+  - link_id: "cross-layer-link:kazene-to-defense"
+    source_layer: "kazene_regulation_layer"
+    target_layer: "defense_immune_layer"
+    relationship: "protects"
+    description: "Regulation signals feed immune monitoring when instability or drift appears."
+    event_types:
+      - event_type: "defense.immune.signal.received"
+      - event_type: "defense.immune.signal.detected"
+        required: true
 
-  * "kazene.regulation.requested"
-  * "kazene.regulation.applied"
-    required: true
-* link_id: "cross-layer-link:kazene-to-defense"
-  source_layer: "kazene_regulation_layer"
-  target_layer: "defense_immune_layer"
-  relationship: "protects"
-  description: "Regulation signals feed immune monitoring when instability or drift appears."
-  event_types:
+  - link_id: "cross-layer-link:defense-to-governance"
+    source_layer: "defense_immune_layer"
+    target_layer: "human_governance_layer"
+    relationship: "escalates_to"
+    description: "Defense immune events escalate to human governance when risk or rights impact is significant."
+    event_types:
+      - event_type: "human.governance.review.requested"
+      - event_type: "human.governance.decision.recorded"
+        required: true
 
-  * "defense.immune.signal.received"
-  * "defense.immune.signal.detected"
-    required: true
-* link_id: "cross-layer-link:defense-to-governance"
-  source_layer: "defense_immune_layer"
-  target_layer: "human_governance_layer"
-  relationship: "escalates_to"
-  description: "Defense immune events escalate to human governance when risk or rights impact is significant."
-  event_types:
+  - link_id: "cross-layer-link:governance-to-agent"
+    source_layer: "human_governance_layer"
+    target_layer: "ai_agent_layer"
+    relationship: "governs"
+    description: "Human governance decisions constrain future AI agent behavior."
+    event_types:
+      - event_type: "agent.task.requested"
+        required: true
 
-  * "human.governance.review.requested"
-  * "human.governance.decision.recorded"
-    required: true
-* link_id: "cross-layer-link:governance-to-agent"
-  source_layer: "human_governance_layer"
-  target_layer: "ai_agent_layer"
-  relationship: "governs"
-  description: "Human governance decisions constrain future AI agent behavior."
-  event_types:
-
-  * "agent.task.requested"
-    required: true
 
 integration_policy:
 layer_validation_required: true
