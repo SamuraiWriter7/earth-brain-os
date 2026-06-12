@@ -1,0 +1,823 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/defense-immune-layer.schema.json",
+"title": "Defense Immune Layer",
+"description": "Schema for the Defense Immune Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines anomaly detection, immune signals, threat classification, defense response, quarantine, recovery, escalation, trace requirements, and governance hooks.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"layer_name",
+"layer_type",
+"layer_version",
+"status",
+"immune_scope",
+"immune_signals",
+"detection_model",
+"threat_classification_model",
+"response_model",
+"quarantine_model",
+"recovery_model",
+"input_events",
+"output_events",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Stable identifier for this layer instance.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"layer:defense-immune"
+]
+},
+"layer_name": {
+"type": "string",
+"const": "Defense Immune Layer",
+"description": "Human-readable name of the layer."
+},
+"layer_type": {
+"type": "string",
+"const": "defense_immune_layer",
+"description": "Machine-readable layer type."
+},
+"layer_version": {
+"type": "string",
+"description": "Version of this layer schema or implementation profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"status": {
+"type": "string",
+"description": "Operational status of the layer.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short explanation of this Defense Immune Layer configuration."
+},
+"immune_scope": {
+"$ref": "#/$defs/immune_scope"
+},
+"immune_signals": {
+"type": "array",
+"description": "Signals monitored by this layer for anomaly, threat, abuse, drift, intrusion, manipulation, and systemic instability.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/immune_signal"
+}
+},
+"detection_model": {
+"$ref": "#/$defs/detection_model"
+},
+"threat_classification_model": {
+"$ref": "#/$defs/threat_classification_model"
+},
+"response_model": {
+"$ref": "#/$defs/response_model"
+},
+"quarantine_model": {
+"$ref": "#/$defs/quarantine_model"
+},
+"recovery_model": {
+"$ref": "#/$defs/recovery_model"
+},
+"immune_controls": {
+"$ref": "#/$defs/immune_controls"
+},
+"input_events": {
+"type": "array",
+"description": "Events or signals accepted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"output_events": {
+"type": "array",
+"description": "Events or signals emitted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"linked_layers": {
+"type": "array",
+"description": "Other Earth Brain OS layers directly connected to this layer.",
+"items": {
+"$ref": "#/$defs/layer_reference"
+},
+"default": []
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
+}
+},
+"$defs": {
+"immune_scope": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"defense_domains",
+"immune_mode",
+"protection_priority",
+"intervention_level",
+"human_review_required"
+],
+"properties": {
+"defense_domains": {
+"type": "array",
+"description": "Domains where immune defense is applied.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"agent_behavior",
+"prompt_injection",
+"tool_execution",
+"knowledge_integrity",
+"trace_integrity",
+"royalty_integrity",
+"governance_integrity",
+"network_signal",
+"semantic_drift",
+"abuse_detection",
+"misuse_prevention",
+"social_manipulation",
+"system_health",
+"other"
+]
+}
+},
+"immune_mode": {
+"type": "string",
+"description": "Primary immune mode used by this layer.",
+"enum": [
+"monitoring",
+"anomaly_detection",
+"containment",
+"active_defense",
+"adaptive_immune_response",
+"human_review_assisted",
+"hybrid",
+"other"
+]
+},
+"protection_priority": {
+"type": "string",
+"description": "Primary protection priority of this layer.",
+"enum": [
+"human_safety",
+"system_integrity",
+"knowledge_integrity",
+"trace_integrity",
+"governance_integrity",
+"public_interest",
+"civilizational_resilience",
+"other"
+]
+},
+"intervention_level": {
+"type": "string",
+"description": "Maximum intervention level allowed for this immune layer.",
+"enum": [
+"observe_only",
+"warn",
+"rate_limit",
+"quarantine",
+"block",
+"rollback",
+"escalate_to_governance",
+"emergency_stop"
+]
+},
+"human_review_required": {
+"type": "boolean",
+"description": "Whether human review is required for high-risk immune actions."
+},
+"boundary_conditions": {
+"type": "array",
+"description": "Boundary conditions limiting detection, containment, blocking, or escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"immune_signal": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"signal_id",
+"signal_type",
+"source_layer",
+"severity",
+"detection_method",
+"response_policy"
+],
+"properties": {
+"signal_id": {
+"type": "string",
+"description": "Stable identifier for the immune signal.",
+"pattern": "^immune-signal:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"immune-signal:prompt-injection-detected"
+]
+},
+"signal_type": {
+"type": "string",
+"description": "Type of immune signal observed by this layer.",
+"enum": [
+"anomaly",
+"prompt_injection",
+"malicious_instruction",
+"data_exfiltration_attempt",
+"unauthorized_tool_use",
+"trace_tampering",
+"attribution_attack",
+"royalty_route_abuse",
+"semantic_drift",
+"governance_bypass",
+"network_intrusion",
+"feedback_poisoning",
+"model_behavior_deviation",
+"human_harm_risk",
+"system_overload",
+"other"
+]
+},
+"source_layer": {
+"type": "string",
+"description": "Layer from which this immune signal is observed.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"severity": {
+"type": "string",
+"description": "Severity level of the immune signal.",
+"enum": [
+"informational",
+"low",
+"medium",
+"high",
+"critical"
+]
+},
+"detection_method": {
+"type": "string",
+"description": "How this immune signal is detected.",
+"enum": [
+"rule_based",
+"signature_match",
+"anomaly_detection",
+"trace_analysis",
+"semantic_analysis",
+"behavioral_analysis",
+"human_report",
+"agent_self_check",
+"governance_review",
+"hybrid",
+"other"
+]
+},
+"response_policy": {
+"type": "string",
+"description": "Policy for responding to this immune signal."
+},
+"confidence_score": {
+"type": "number",
+"description": "Confidence score for this immune signal.",
+"minimum": 0,
+"maximum": 1
+},
+"linked_trace_ids": {
+"type": "array",
+"description": "Trace identifiers linked to this immune signal.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"detection_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"detection_strategy",
+"monitoring_frequency",
+"false_positive_policy",
+"false_negative_policy"
+],
+"properties": {
+"detection_strategy": {
+"type": "string",
+"description": "Primary detection strategy used by this layer.",
+"enum": [
+"rule_based",
+"signature_based",
+"behavioral",
+"semantic",
+"trace_based",
+"risk_scoring",
+"human_review",
+"hybrid",
+"other"
+]
+},
+"monitoring_frequency": {
+"type": "string",
+"description": "How frequently this layer monitors for immune signals.",
+"enum": [
+"manual",
+"periodic",
+"event_driven",
+"continuous",
+"on_demand",
+"unknown"
+]
+},
+"false_positive_policy": {
+"type": "string",
+"description": "Policy for handling false positives."
+},
+"false_negative_policy": {
+"type": "string",
+"description": "Policy for handling missed threats or false negatives."
+},
+"detection_threshold_policy": {
+"type": "string",
+"description": "Policy for setting detection thresholds."
+},
+"sensor_refs": {
+"type": "array",
+"description": "Optional references to sensors, monitors, validators, or defense agents.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"threat_classification_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"classification_method",
+"risk_levels",
+"classification_review_policy",
+"escalation_threshold"
+],
+"properties": {
+"classification_method": {
+"type": "string",
+"description": "How threats or anomalies are classified.",
+"enum": [
+"rule_based",
+"risk_matrix",
+"semantic_classifier",
+"trace_chain_analysis",
+"human_review",
+"agent_consensus",
+"hybrid",
+"other"
+]
+},
+"risk_levels": {
+"type": "array",
+"description": "Risk levels used by this layer.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"informational",
+"low",
+"medium",
+"high",
+"critical"
+]
+}
+},
+"classification_review_policy": {
+"type": "string",
+"description": "Policy for reviewing threat classifications."
+},
+"escalation_threshold": {
+"type": "string",
+"description": "Threshold at which classified threats must be escalated."
+},
+"known_threat_categories": {
+"type": "array",
+"description": "Known threat categories monitored by this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"response_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"response_strategy",
+"response_timing",
+"allowed_responses",
+"escalation_policy"
+],
+"properties": {
+"response_strategy": {
+"type": "string",
+"description": "Primary response strategy used by this layer.",
+"enum": [
+"observe_and_log",
+"warn",
+"rate_limit",
+"restrict",
+"quarantine",
+"block",
+"rollback",
+"redirect_to_safe_flow",
+"escalate",
+"hybrid",
+"other"
+]
+},
+"response_timing": {
+"type": "string",
+"description": "When responses are applied.",
+"enum": [
+"immediate",
+"after_verification",
+"after_human_review",
+"batched",
+"event_driven",
+"manual"
+]
+},
+"allowed_responses": {
+"type": "array",
+"description": "Responses explicitly allowed for this layer.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"log",
+"warn",
+"rate_limit",
+"restrict_tool",
+"restrict_memory",
+"quarantine_event",
+"quarantine_agent",
+"block_event",
+"rollback_state",
+"request_human_review",
+"escalate_to_governance",
+"emergency_stop"
+]
+}
+},
+"escalation_policy": {
+"type": "string",
+"description": "Policy for escalating immune events to governance or human review."
+},
+"response_constraints": {
+"type": "array",
+"description": "Constraints limiting automatic defense responses.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"quarantine_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"quarantine_targets",
+"quarantine_trigger_policy",
+"isolation_policy",
+"release_policy"
+],
+"properties": {
+"quarantine_targets": {
+"type": "array",
+"description": "Targets that may be quarantined by this layer.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"event",
+"agent",
+"tool",
+"knowledge_source",
+"trace_record",
+"royalty_route",
+"network_node",
+"governance_action",
+"user_session",
+"other"
+]
+}
+},
+"quarantine_trigger_policy": {
+"type": "string",
+"description": "Policy defining when quarantine is triggered."
+},
+"isolation_policy": {
+"type": "string",
+"description": "How quarantined targets are isolated from the rest of the system."
+},
+"release_policy": {
+"type": "string",
+"description": "Conditions under which quarantined targets may be released."
+},
+"maximum_quarantine_duration": {
+"type": "string",
+"description": "Optional human-readable maximum quarantine duration."
+},
+"quarantine_review_required": {
+"type": "boolean",
+"description": "Whether human or governance review is required before release.",
+"default": true
+}
+}
+},
+"recovery_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"recovery_strategy",
+"rollback_policy",
+"post_incident_review_policy",
+"learning_update_policy"
+],
+"properties": {
+"recovery_strategy": {
+"type": "string",
+"description": "Primary recovery strategy after immune response.",
+"enum": [
+"restore_previous_state",
+"patch_policy",
+"update_guardrail",
+"repair_trace_chain",
+"reroute_flow",
+"human_review_recovery",
+"gradual_reactivation",
+"hybrid",
+"other"
+]
+},
+"rollback_policy": {
+"type": "string",
+"description": "Policy for rolling back unsafe events, actions, routes, or states."
+},
+"post_incident_review_policy": {
+"type": "string",
+"description": "Policy for reviewing incidents after immune response."
+},
+"learning_update_policy": {
+"type": "string",
+"description": "Policy for updating detection, defense, or governance models after incidents."
+},
+"recovery_trace_required": {
+"type": "boolean",
+"description": "Whether recovery actions must produce trace records.",
+"default": true
+}
+}
+},
+"immune_controls": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"auto_response_enabled": {
+"type": "boolean",
+"description": "Whether automatic immune responses are enabled."
+},
+"human_override_enabled": {
+"type": "boolean",
+"description": "Whether humans may override immune responses."
+},
+"defense_court_review_enabled": {
+"type": "boolean",
+"description": "Whether high-risk defense actions are reviewed by a Defense Court-style governance process."
+},
+"adaptive_learning_enabled": {
+"type": "boolean",
+"description": "Whether immune models may update based on new incidents."
+},
+"safe_mode_policy": {
+"type": "string",
+"description": "Policy for entering safe mode during severe immune events."
+},
+"monitoring_signals": {
+"type": "array",
+"description": "Signals monitored for immune system health.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+},
+"default": {}
+},
+"event_port": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_type",
+"direction",
+"description"
+],
+"properties": {
+"event_type": {
+"type": "string",
+"description": "Machine-readable event or signal type.",
+"pattern": "^[a-z][a-z0-9.*-]*$",
+"examples": [
+"defense.immune.signal.detected"
+]
+},
+"direction": {
+"type": "string",
+"description": "Direction of the event relative to this layer.",
+"enum": [
+"input",
+"output"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the event."
+},
+"source_layer": {
+"type": "string",
+"description": "Optional source layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_layer": {
+"type": "string",
+"description": "Optional target layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for this event."
+}
+}
+},
+"layer_reference": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"relationship"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Referenced Earth Brain OS layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"relationship": {
+"type": "string",
+"description": "Relationship between this layer and the referenced layer.",
+"enum": [
+"receives_from",
+"sends_to",
+"monitors",
+"protects",
+"quarantines",
+"recovers",
+"audits",
+"regulated_by",
+"governed_by",
+"other"
+]
+},
+"description": {
+"type": "string"
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"immune_signal_logging_required",
+"response_logging_required",
+"quarantine_logging_required",
+"recovery_logging_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether immune defense activity must produce trace records."
+},
+"immune_signal_logging_required": {
+"type": "boolean",
+"description": "Whether detected immune signals must be logged."
+},
+"response_logging_required": {
+"type": "boolean",
+"description": "Whether immune responses must be logged."
+},
+"quarantine_logging_required": {
+"type": "boolean",
+"description": "Whether quarantine actions must be logged."
+},
+"recovery_logging_required": {
+"type": "boolean",
+"description": "Whether recovery actions must be logged."
+},
+"provenance_fields": {
+"type": "array",
+"description": "Required provenance fields for immune defense records.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for this layer."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents, rules, or schemas applied to this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"defense_policy_refs": {
+"type": "array",
+"description": "Defense, immune, incident response, or threat handling policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"safety_policy_refs": {
+"type": "array",
+"description": "Safety, human protection, or system integrity policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known failure modes to monitor.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+}
+}
+}
