@@ -52,8 +52,7 @@ decision_note: "The AI-assisted contribution is routed to a human maintainer bec
 lifecycle_status: "trust_route_assigned"
 
 related_events:
-
-- "trace:earth-brain-2026-001"
-- "value-route:earth-brain-2026-001"
+  - "trace:earth-brain-2026-001"
+  - "value-route:earth-brain-2026-001"
 
 notes: "This example demonstrates the minimal Earth Brain OS lifecycle: AI contribution, knowledge usage, trace generation, Kazene pressure routing, human governance review, and value circulation."
