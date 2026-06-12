@@ -1,0 +1,835 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/royalty-circulation-layer.schema.json",
+"title": "Royalty Circulation Layer",
+"description": "Schema for the Royalty Circulation Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines value circulation, royalty routing, contribution recognition, allocation policies, settlement models, return channels, trace-linked compensation, and governance hooks.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"layer_name",
+"layer_type",
+"layer_version",
+"status",
+"circulation_scope",
+"value_sources",
+"beneficiary_records",
+"allocation_model",
+"royalty_route_model",
+"settlement_model",
+"input_events",
+"output_events",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Stable identifier for this layer instance.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"layer:royalty-circulation"
+]
+},
+"layer_name": {
+"type": "string",
+"const": "Royalty Circulation Layer",
+"description": "Human-readable name of the layer."
+},
+"layer_type": {
+"type": "string",
+"const": "royalty_circulation_layer",
+"description": "Machine-readable layer type."
+},
+"layer_version": {
+"type": "string",
+"description": "Version of this layer schema or implementation profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"status": {
+"type": "string",
+"description": "Operational status of the layer.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short explanation of this Royalty Circulation Layer configuration."
+},
+"circulation_scope": {
+"$ref": "#/$defs/circulation_scope"
+},
+"value_sources": {
+"type": "array",
+"description": "Sources from which value, usage, contribution, or circulation signals are derived.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/value_source"
+}
+},
+"beneficiary_records": {
+"type": "array",
+"description": "Beneficiaries, contributors, origins, or public-interest pools eligible for value return.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/beneficiary_record"
+}
+},
+"allocation_model": {
+"$ref": "#/$defs/allocation_model"
+},
+"royalty_route_model": {
+"$ref": "#/$defs/royalty_route_model"
+},
+"settlement_model": {
+"$ref": "#/$defs/settlement_model"
+},
+"circulation_controls": {
+"$ref": "#/$defs/circulation_controls"
+},
+"input_events": {
+"type": "array",
+"description": "Events or signals accepted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"output_events": {
+"type": "array",
+"description": "Events or signals emitted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"linked_layers": {
+"type": "array",
+"description": "Other Earth Brain OS layers directly connected to this layer.",
+"items": {
+"$ref": "#/$defs/layer_reference"
+},
+"default": []
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
+}
+},
+"$defs": {
+"circulation_scope": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"circulation_domains",
+"circulation_mode",
+"value_unit_policy",
+"public_return_policy",
+"human_review_required"
+],
+"properties": {
+"circulation_domains": {
+"type": "array",
+"description": "Domains where value circulation or royalty return is applied.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"content_use",
+"knowledge_use",
+"agent_output",
+"model_training",
+"model_inference",
+"tool_execution",
+"data_access",
+"human_contribution",
+"public_infrastructure",
+"governance_contribution",
+"defense_contribution",
+"other"
+]
+}
+},
+"circulation_mode": {
+"type": "string",
+"description": "Primary mode of value circulation.",
+"enum": [
+"direct_royalty",
+"pooled_distribution",
+"public_return",
+"origin_return",
+"usage_based_return",
+"contribution_weighted",
+"hybrid",
+"other"
+]
+},
+"value_unit_policy": {
+"type": "string",
+"description": "Policy for representing value units, credits, points, money, or non-monetary returns."
+},
+"public_return_policy": {
+"type": "string",
+"description": "Policy for returning value to public, commons, civic, or shared infrastructure pools."
+},
+"human_review_required": {
+"type": "boolean",
+"description": "Whether human review is required for sensitive allocation or disputed royalty events."
+},
+"boundary_conditions": {
+"type": "array",
+"description": "Boundary conditions limiting value circulation, royalty routing, or beneficiary eligibility.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"value_source": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"source_id",
+"source_type",
+"source_name",
+"measurement_method",
+"trace_ref_required",
+"trust_level"
+],
+"properties": {
+"source_id": {
+"type": "string",
+"description": "Stable identifier for the value source.",
+"pattern": "^value-source:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"value-source:trace-attribution-records"
+]
+},
+"source_type": {
+"type": "string",
+"description": "Type of source from which value signals are derived.",
+"enum": [
+"trace_record",
+"attribution_record",
+"usage_event",
+"inference_event",
+"content_event",
+"payment_event",
+"governance_record",
+"human_review",
+"agent_assessment",
+"public_metric",
+"external_registry",
+"other"
+]
+},
+"source_name": {
+"type": "string",
+"description": "Human-readable value source name."
+},
+"source_ref": {
+"type": "string",
+"description": "Optional URI, file path, registry key, or source reference."
+},
+"measurement_method": {
+"type": "string",
+"description": "How value, usage, or contribution is measured.",
+"enum": [
+"usage_count",
+"weighted_usage",
+"trace_weight",
+"q_point_score",
+"human_review_score",
+"market_signal",
+"fixed_rule",
+"hybrid",
+"other"
+]
+},
+"trace_ref_required": {
+"type": "boolean",
+"description": "Whether this value source must be linked to a trace or attribution record."
+},
+"trust_level": {
+"type": "string",
+"description": "Trust level assigned to this value source.",
+"enum": [
+"unverified",
+"low",
+"medium",
+"high",
+"authoritative"
+]
+},
+"update_frequency": {
+"type": "string",
+"description": "Expected update frequency for this value source.",
+"enum": [
+"static",
+"manual",
+"daily",
+"weekly",
+"monthly",
+"real_time",
+"event_driven",
+"unknown"
+],
+"default": "event_driven"
+}
+}
+},
+"beneficiary_record": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"beneficiary_id",
+"beneficiary_type",
+"beneficiary_ref",
+"eligibility_status",
+"return_channel"
+],
+"properties": {
+"beneficiary_id": {
+"type": "string",
+"description": "Stable identifier for the beneficiary record.",
+"pattern": "^beneficiary:[a-z0-9][a-z0-9._:-]*$",
+"examples": [
+"beneficiary:origin-author-001"
+]
+},
+"beneficiary_type": {
+"type": "string",
+"description": "Type of beneficiary eligible for value return.",
+"enum": [
+"human_creator",
+"contributor",
+"organization",
+"dataset_owner",
+"knowledge_source",
+"agent_operator",
+"public_pool",
+"commons_pool",
+"governance_pool",
+"defense_pool",
+"unknown",
+"other"
+]
+},
+"beneficiary_ref": {
+"type": "string",
+"description": "Reference to the beneficiary, origin, pool, or route."
+},
+"eligibility_status": {
+"type": "string",
+"description": "Current eligibility status for receiving value return.",
+"enum": [
+"eligible",
+"pending_review",
+"restricted",
+"disputed",
+"ineligible",
+"retired",
+"unknown"
+]
+},
+"return_channel": {
+"type": "string",
+"description": "Preferred channel or mechanism for value return.",
+"enum": [
+"direct_payment",
+"royalty_account",
+"point_credit",
+"public_fund",
+"commons_pool",
+"non_monetary_credit",
+"recognition_record",
+"manual_settlement",
+"other"
+]
+},
+"linked_attribution_records": {
+"type": "array",
+"description": "Attribution records linked to this beneficiary.",
+"items": {
+"type": "string",
+"pattern": "^attribution-record:[a-z0-9][a-z0-9.*:-]*$"
+},
+"default": []
+},
+"allocation_weight": {
+"type": "number",
+"description": "Optional allocation weight assigned to this beneficiary.",
+"minimum": 0
+},
+"review_notes": {
+"type": "string",
+"description": "Optional notes for human review or governance context."
+}
+}
+},
+"allocation_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"allocation_method",
+"weighting_policy",
+"dispute_policy",
+"minimum_threshold_policy"
+],
+"properties": {
+"allocation_method": {
+"type": "string",
+"description": "Primary method for allocating value among beneficiaries.",
+"enum": [
+"fixed_percentage",
+"usage_weighted",
+"trace_weighted",
+"contribution_weighted",
+"q_point_weighted",
+"public_private_split",
+"equal_split",
+"manual_review",
+"hybrid",
+"other"
+]
+},
+"weighting_policy": {
+"type": "string",
+"description": "Policy for calculating beneficiary weights."
+},
+"dispute_policy": {
+"type": "string",
+"description": "How disputes over allocation, origin, or beneficiary status are handled."
+},
+"minimum_threshold_policy": {
+"type": "string",
+"description": "Policy for minimum value, usage, or score thresholds required for allocation."
+},
+"allocation_constraints": {
+"type": "array",
+"description": "Constraints applied to allocation decisions.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"example_split": {
+"type": "array",
+"description": "Optional example allocation split for documentation or testing.",
+"items": {
+"$ref": "#/$defs/allocation_share"
+},
+"default": []
+}
+}
+},
+"allocation_share": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"target",
+"share"
+],
+"properties": {
+"target": {
+"type": "string",
+"description": "Beneficiary, pool, or route receiving this share."
+},
+"share": {
+"type": "number",
+"description": "Allocation share expressed as a decimal from 0 to 1.",
+"minimum": 0,
+"maximum": 1
+},
+"description": {
+"type": "string"
+}
+}
+},
+"royalty_route_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"route_strategy",
+"route_resolution_method",
+"route_integrity_policy",
+"fallback_route_policy"
+],
+"properties": {
+"route_strategy": {
+"type": "string",
+"description": "Primary strategy for routing royalty or value-return events.",
+"enum": [
+"direct_to_origin",
+"through_registry",
+"through_public_pool",
+"through_agent_proxy",
+"through_governance_review",
+"multi_route",
+"hybrid",
+"other"
+]
+},
+"route_resolution_method": {
+"type": "string",
+"description": "How the correct return route is resolved from trace and attribution records."
+},
+"route_integrity_policy": {
+"type": "string",
+"description": "How route integrity is checked, preserved, or audited."
+},
+"fallback_route_policy": {
+"type": "string",
+"description": "Fallback policy when a beneficiary or route cannot be resolved."
+},
+"route_records": {
+"type": "array",
+"description": "Optional royalty route records managed by this layer.",
+"items": {
+"$ref": "#/$defs/royalty_route_record"
+},
+"default": []
+}
+}
+},
+"royalty_route_record": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"route_id",
+"route_type",
+"source_ref",
+"target_ref",
+"route_status"
+],
+"properties": {
+"route_id": {
+"type": "string",
+"description": "Stable identifier for the royalty route.",
+"pattern": "^royalty-route:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"royalty-route:origin-to-author"
+]
+},
+"route_type": {
+"type": "string",
+"description": "Type of royalty or value return route.",
+"enum": [
+"origin_return",
+"contributor_return",
+"public_return",
+"commons_return",
+"governance_return",
+"defense_return",
+"agent_operator_return",
+"other"
+]
+},
+"source_ref": {
+"type": "string",
+"description": "Source event, trace, attribution, or value source reference."
+},
+"target_ref": {
+"type": "string",
+"description": "Target beneficiary, account, pool, or route reference."
+},
+"route_status": {
+"type": "string",
+"description": "Current route status.",
+"enum": [
+"draft",
+"active",
+"pending_review",
+"blocked",
+"disputed",
+"retired",
+"unknown"
+]
+},
+"linked_trace_ids": {
+"type": "array",
+"description": "Trace identifiers linked to this route.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"settlement_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"settlement_mode",
+"settlement_frequency",
+"verification_required",
+"settlement_failure_policy"
+],
+"properties": {
+"settlement_mode": {
+"type": "string",
+"description": "How royalty or value return is settled.",
+"enum": [
+"none",
+"manual",
+"automated",
+"batch",
+"real_time",
+"event_driven",
+"hybrid"
+]
+},
+"settlement_frequency": {
+"type": "string",
+"description": "Expected settlement frequency.",
+"enum": [
+"none",
+"per_event",
+"daily",
+"weekly",
+"monthly",
+"quarterly",
+"on_demand",
+"unknown"
+]
+},
+"verification_required": {
+"type": "boolean",
+"description": "Whether settlement requires verification before execution."
+},
+"settlement_failure_policy": {
+"type": "string",
+"description": "Policy for handling failed, blocked, or disputed settlements."
+},
+"settlement_record_schema_ref": {
+"type": "string",
+"description": "Optional schema reference for settlement records."
+},
+"currency_or_unit_policy": {
+"type": "string",
+"description": "Policy for currency, points, credits, or other value units."
+}
+}
+},
+"circulation_controls": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"anti_capture_policy": {
+"type": "string",
+"description": "Policy for preventing value capture, monopoly, or extraction without return."
+},
+"leakage_detection": {
+"type": "string",
+"description": "How value leakage or unreturned usage is detected."
+},
+"fairness_review_required": {
+"type": "boolean",
+"description": "Whether fairness review is required for allocation outcomes."
+},
+"rollback_strategy": {
+"type": "string",
+"description": "How this layer should roll back, correct, or suspend invalid circulation events."
+},
+"monitoring_signals": {
+"type": "array",
+"description": "Signals monitored for circulation health.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+},
+"default": {}
+},
+"event_port": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_type",
+"direction",
+"description"
+],
+"properties": {
+"event_type": {
+"type": "string",
+"description": "Machine-readable event or signal type.",
+"pattern": "^[a-z][a-z0-9._-]*$",
+"examples": [
+"royalty.route.created"
+]
+},
+"direction": {
+"type": "string",
+"description": "Direction of the event relative to this layer.",
+"enum": [
+"input",
+"output"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the event."
+},
+"source_layer": {
+"type": "string",
+"description": "Optional source layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_layer": {
+"type": "string",
+"description": "Optional target layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for this event."
+}
+}
+},
+"layer_reference": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"relationship"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Referenced Earth Brain OS layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"relationship": {
+"type": "string",
+"description": "Relationship between this layer and the referenced layer.",
+"enum": [
+"receives_from",
+"sends_to",
+"allocates_for",
+"routes_value_to",
+"audited_by",
+"regulated_by",
+"protected_by",
+"governed_by",
+"other"
+]
+},
+"description": {
+"type": "string"
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"attribution_link_required",
+"allocation_logging_required",
+"settlement_logging_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether royalty and circulation activity must produce trace records."
+},
+"attribution_link_required": {
+"type": "boolean",
+"description": "Whether value circulation must link back to attribution records."
+},
+"allocation_logging_required": {
+"type": "boolean",
+"description": "Whether allocation decisions must be logged."
+},
+"settlement_logging_required": {
+"type": "boolean",
+"description": "Whether settlement events must be logged."
+},
+"provenance_fields": {
+"type": "array",
+"description": "Required provenance fields for royalty and circulation records.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for this layer."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents, rules, or schemas applied to this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"attribution_policy_refs": {
+"type": "array",
+"description": "Trace, attribution, permission, or origin policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"payment_policy_refs": {
+"type": "array",
+"description": "Payment, settlement, accounting, or value-return policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known failure modes to monitor.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+}
+}
+}
