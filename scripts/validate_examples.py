@@ -1,156 +1,160 @@
 #!/usr/bin/env python3
 """
-Validate YAML example files against JSON Schemas.
+Validate Earth Brain OS example YAML files against JSON Schemas.
+
+This validator supports local $ref resolution for schemas under ./schemas,
+including v0.2 Modular Event Architecture layer schemas.
 """
 
-from __future__ import annotations
+from **future** import annotations
 
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Any
 
 import yaml
-from jsonschema import Draft202012Validator, FormatChecker
+from jsonschema import Draft202012Validator, RefResolver
+from jsonschema.exceptions import ValidationError
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
+ROOT_DIR = Path(**file**).resolve().parents[1]
 SCHEMAS_DIR = ROOT_DIR / "schemas"
 EXAMPLES_DIR = ROOT_DIR / "examples"
 
-EXPLICIT_EXAMPLE_SCHEMA_MAP: Dict[str, str] = {
-    "earth-brain-os-flow.example.yaml": "earth-brain-event.schema.json",
+VALIDATION_TARGETS = [
+{
+"name": "Earth Brain Event v0.2 Modular Example",
+"schema": SCHEMAS_DIR / "earth-brain-event.schema.json",
+"example": EXAMPLES_DIR / "earth-brain-event.example.yaml",
 }
+]
 
-def load_json(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as file:
-        return json.load(file)
+def load_json(path: Path) -> dict[str, Any]:
+with path.open("r", encoding="utf-8") as f:
+return json.load(f)
 
-def load_yaml(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as file:
-        data = yaml.safe_load(file)
+def load_yaml(path: Path) -> Any:
+with path.open("r", encoding="utf-8") as f:
+return yaml.safe_load(f)
 
-    if data is None:
-        return {}
+def build_schema_store() -> dict[str, dict[str, Any]]:
+"""
+Register all local schemas so relative and absolute $ref values resolve
+without network access.
 
-    if not isinstance(data, dict):
-        raise ValueError(f"Example must be a YAML object: {path}")
+```
+This is important because earth-brain-event.schema.json references:
+  - layers/ai-agent-layer.schema.json
+  - layers/optical-nervous-layer.schema.json
+  - layers/knowledge-cortex-layer.schema.json
+  - layers/trace-attribution-layer.schema.json
+  - layers/royalty-circulation-layer.schema.json
+  - layers/kazene-regulation-layer.schema.json
+  - layers/defense-immune-layer.schema.json
+  - layers/human-governance-layer.schema.json
+"""
+store: dict[str, dict[str, Any]] = {}
 
-    return data
+for schema_path in SCHEMAS_DIR.rglob("*.json"):
+    schema = load_json(schema_path)
 
-def schema_name_from_example(example_path: Path) -> str:
-    name = example_path.name
+    file_uri = schema_path.resolve().as_uri()
+    store[file_uri] = schema
 
-    if name in EXPLICIT_EXAMPLE_SCHEMA_MAP:
-        return EXPLICIT_EXAMPLE_SCHEMA_MAP[name]
+    schema_id = schema.get("$id")
+    if isinstance(schema_id, str):
+        store[schema_id] = schema
 
-    if name.endswith(".example.yaml"):
-        base_name = name.removesuffix(".example.yaml")
-        return f"{base_name}.schema.json"
+return store
+```
 
-    if name.endswith(".example.yml"):
-        base_name = name.removesuffix(".example.yml")
-        return f"{base_name}.schema.json"
+def format_validation_error(error: ValidationError) -> str:
+path = "/".join(str(part) for part in error.absolute_path)
+schema_path = "/".join(str(part) for part in error.absolute_schema_path)
 
-    raise ValueError(f"Unsupported example filename format: {example_path}")
+```
+location = path if path else "<root>"
+schema_location = schema_path if schema_path else "<schema root>"
 
-def collect_validation_targets() -> List[Tuple[Path, Path]]:
-    if not EXAMPLES_DIR.exists():
-        raise FileNotFoundError(f"Examples directory not found: {EXAMPLES_DIR}")
+return (
+    f"Validation error at: {location}\n"
+    f"Schema path: {schema_location}\n"
+    f"Message: {error.message}"
+)
+```
 
-    if not SCHEMAS_DIR.exists():
-        raise FileNotFoundError(f"Schemas directory not found: {SCHEMAS_DIR}")
+def validate_example(name: str, schema_path: Path, example_path: Path, store: dict[str, dict[str, Any]]) -> bool:
+if not schema_path.exists():
+print(f"[FAIL] {name}")
+print(f"  Missing schema: {schema_path.relative_to(ROOT_DIR)}")
+return False
 
-    targets: List[Tuple[Path, Path]] = []
+```
+if not example_path.exists():
+    print(f"[FAIL] {name}")
+    print(f"  Missing example: {example_path.relative_to(ROOT_DIR)}")
+    return False
 
-    example_paths = sorted(
-        list(EXAMPLES_DIR.glob("*.example.yaml"))
-        + list(EXAMPLES_DIR.glob("*.example.yml"))
-    )
+schema = load_json(schema_path)
+example = load_yaml(example_path)
 
-    for example_path in example_paths:
-        schema_name = schema_name_from_example(example_path)
-        schema_path = SCHEMAS_DIR / schema_name
+base_uri = schema.get("$id")
+if not isinstance(base_uri, str):
+    base_uri = schema_path.resolve().as_uri()
 
-        if not schema_path.exists():
-            raise FileNotFoundError(
-                f"Schema not found for example: {example_path.relative_to(ROOT_DIR)} "
-                f"-> expected {schema_path.relative_to(ROOT_DIR)}"
-            )
+resolver = RefResolver(
+    base_uri=base_uri,
+    referrer=schema,
+    store=store,
+)
 
-        targets.append((example_path, schema_path))
+validator = Draft202012Validator(
+    schema=schema,
+    resolver=resolver,
+)
 
-    return targets
+errors = sorted(validator.iter_errors(example), key=lambda e: list(e.absolute_path))
 
-def validate_example(example_path: Path, schema_path: Path) -> List[str]:
-    errors: List[str] = []
+if errors:
+    print(f"[FAIL] {name}")
+    print(f"  Schema : {schema_path.relative_to(ROOT_DIR)}")
+    print(f"  Example: {example_path.relative_to(ROOT_DIR)}")
+    print()
+    for error in errors:
+        print(format_validation_error(error))
+        print()
+    return False
 
-    try:
-        schema = load_json(schema_path)
-        example = load_yaml(example_path)
-
-        validator = Draft202012Validator(
-            schema,
-            format_checker=FormatChecker(),
-        )
-
-        validation_errors = sorted(
-            validator.iter_errors(example),
-            key=lambda error: list(error.path),
-        )
-
-        for error in validation_errors:
-            location = "/".join(str(part) for part in error.absolute_path)
-            if not location:
-                location = "<root>"
-
-            errors.append(
-                f"{example_path.relative_to(ROOT_DIR)} "
-                f"against {schema_path.relative_to(ROOT_DIR)} "
-                f"at {location}: {error.message}"
-            )
-
-    except Exception as exc:
-        errors.append(
-            f"{example_path.relative_to(ROOT_DIR)} "
-            f"against {schema_path.relative_to(ROOT_DIR)}: {exc}"
-        )
-
-    return errors
+print(f"[PASS] {name}")
+print(f"  Schema : {schema_path.relative_to(ROOT_DIR)}")
+print(f"  Example: {example_path.relative_to(ROOT_DIR)}")
+return True
+```
 
 def main() -> int:
-    try:
-        targets = collect_validation_targets()
-    except Exception as exc:
-        print(f"Validation setup failed: {exc}", file=sys.stderr)
-        return 1
+store = build_schema_store()
 
-    if not targets:
-        print("No example files found.")
-        return 0
+```
+all_passed = True
 
-    all_errors: List[str] = []
+for target in VALIDATION_TARGETS:
+    passed = validate_example(
+        name=target["name"],
+        schema_path=target["schema"],
+        example_path=target["example"],
+        store=store,
+    )
+    all_passed = all_passed and passed
 
-    for example_path, schema_path in targets:
-        errors = validate_example(example_path, schema_path)
-        all_errors.extend(errors)
+if not all_passed:
+    print()
+    print("Validation failed.")
+    return 1
 
-        if errors:
-            print(f"FAIL: {example_path.relative_to(ROOT_DIR)}")
-        else:
-            print(
-                "PASS: "
-                f"{example_path.relative_to(ROOT_DIR)} "
-                f"-> {schema_path.relative_to(ROOT_DIR)}"
-            )
+print()
+print("All examples passed validation.")
+return 0
+```
 
-    if all_errors:
-        print("\nValidation errors:", file=sys.stderr)
-        for error in all_errors:
-            print(f"- {error}", file=sys.stderr)
-        return 1
-
-    print(f"\nAll examples validated successfully. Total: {len(targets)}")
-    return 0
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+if **name** == "**main**":
+sys.exit(main())
