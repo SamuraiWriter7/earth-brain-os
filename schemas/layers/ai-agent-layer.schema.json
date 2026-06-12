@@ -1,0 +1,548 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/ai-agent-layer.schema.json",
+"title": "AI Agent Layer",
+"description": "Schema for the AI Agent Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines AI agents, their roles, autonomy boundaries, coordination model, input/output events, trace requirements, and governance hooks.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"layer_name",
+"layer_type",
+"layer_version",
+"status",
+"agent_scope",
+"agent_roles",
+"coordination_model",
+"input_events",
+"output_events",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Stable identifier for this layer instance.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"layer:ai-agent"
+]
+},
+"layer_name": {
+"type": "string",
+"const": "AI Agent Layer",
+"description": "Human-readable name of the layer."
+},
+"layer_type": {
+"type": "string",
+"const": "ai_agent_layer",
+"description": "Machine-readable layer type."
+},
+"layer_version": {
+"type": "string",
+"description": "Version of this layer schema or implementation profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"status": {
+"type": "string",
+"description": "Operational status of the layer.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short explanation of this AI Agent Layer configuration."
+},
+"agent_scope": {
+"$ref": "#/$defs/agent_scope"
+},
+"agent_roles": {
+"type": "array",
+"description": "AI agent roles operating inside this layer.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/agent_role"
+}
+},
+"capabilities": {
+"type": "array",
+"description": "Declared capabilities available to agents in this layer.",
+"items": {
+"$ref": "#/$defs/agent_capability"
+},
+"default": []
+},
+"coordination_model": {
+"$ref": "#/$defs/coordination_model"
+},
+"input_events": {
+"type": "array",
+"description": "Events or signals accepted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"output_events": {
+"type": "array",
+"description": "Events or signals emitted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"linked_layers": {
+"type": "array",
+"description": "Other Earth Brain OS layers directly connected to this layer.",
+"items": {
+"$ref": "#/$defs/layer_reference"
+},
+"default": []
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"risk_controls": {
+"$ref": "#/$defs/risk_controls"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
+}
+},
+"$defs": {
+"agent_scope": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"operating_domains",
+"autonomy_level",
+"execution_boundary",
+"human_supervision"
+],
+"properties": {
+"operating_domains": {
+"type": "array",
+"description": "Domains where agents in this layer may operate.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"reasoning",
+"planning",
+"execution",
+"routing",
+"tool_use",
+"memory_access",
+"knowledge_retrieval",
+"governance_assistance",
+"defense_monitoring",
+"human_interface",
+"other"
+]
+}
+},
+"autonomy_level": {
+"type": "string",
+"description": "Maximum permitted autonomy level for agents in this layer.",
+"enum": [
+"assistive",
+"supervised",
+"bounded_autonomous",
+"semi_autonomous",
+"autonomous"
+]
+},
+"execution_boundary": {
+"type": "string",
+"description": "Boundary condition that limits agent execution."
+},
+"human_supervision": {
+"type": "string",
+"description": "Required level of human supervision.",
+"enum": [
+"none",
+"optional",
+"required_for_sensitive_actions",
+"always_required"
+]
+},
+"allowed_actions": {
+"type": "array",
+"description": "Actions explicitly allowed for this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"prohibited_actions": {
+"type": "array",
+"description": "Actions explicitly prohibited for this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"agent_role": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"role_id",
+"role_name",
+"agent_type",
+"responsibility",
+"decision_rights"
+],
+"properties": {
+"role_id": {
+"type": "string",
+"description": "Stable identifier for the agent role.",
+"pattern": "^agent-role:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"agent-role:planner"
+]
+},
+"role_name": {
+"type": "string",
+"description": "Human-readable role name."
+},
+"agent_type": {
+"type": "string",
+"description": "Functional type of the agent.",
+"enum": [
+"observer",
+"router",
+"planner",
+"executor",
+"evaluator",
+"coordinator",
+"tool_agent",
+"memory_agent",
+"governance_agent",
+"human_proxy",
+"other"
+]
+},
+"responsibility": {
+"type": "string",
+"description": "Primary responsibility assigned to this role."
+},
+"decision_rights": {
+"type": "string",
+"description": "Maximum decision authority granted to this role.",
+"enum": [
+"observe",
+"recommend",
+"execute",
+"escalate",
+"restrict"
+]
+},
+"model_refs": {
+"type": "array",
+"description": "Optional model, agent, or service references used by this role.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"tool_refs": {
+"type": "array",
+"description": "Optional tool references available to this role.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"agent_capability": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"capability_id",
+"capability_name",
+"capability_type"
+],
+"properties": {
+"capability_id": {
+"type": "string",
+"description": "Stable identifier for the capability.",
+"pattern": "^capability:[a-z0-9][a-z0-9._:-]*$"
+},
+"capability_name": {
+"type": "string",
+"description": "Human-readable capability name."
+},
+"capability_type": {
+"type": "string",
+"enum": [
+"reasoning",
+"classification",
+"generation",
+"retrieval",
+"planning",
+"execution",
+"monitoring",
+"validation",
+"translation",
+"summarization",
+"other"
+]
+},
+"constraints": {
+"type": "array",
+"description": "Constraints applied to this capability.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"coordination_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"topology",
+"orchestration_method",
+"conflict_resolution",
+"escalation_policy"
+],
+"properties": {
+"topology": {
+"type": "string",
+"description": "Coordination topology used by the AI Agent Layer.",
+"enum": [
+"single_agent",
+"multi_agent",
+"hierarchical",
+"hub_and_spoke",
+"swarm",
+"market_like",
+"human_in_loop"
+]
+},
+"orchestration_method": {
+"type": "string",
+"description": "How agents are coordinated."
+},
+"conflict_resolution": {
+"type": "string",
+"description": "How disagreements or contradictory outputs are resolved."
+},
+"escalation_policy": {
+"type": "string",
+"description": "When and how this layer escalates to human governance or defense layers."
+}
+}
+},
+"event_port": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_type",
+"direction",
+"description"
+],
+"properties": {
+"event_type": {
+"type": "string",
+"description": "Machine-readable event or signal type.",
+"pattern": "^[a-z][a-z0-9.*-]*$",
+"examples": [
+"agent.task.requested"
+]
+},
+"direction": {
+"type": "string",
+"description": "Direction of the event relative to this layer.",
+"enum": [
+"input",
+"output"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the event."
+},
+"source_layer": {
+"type": "string",
+"description": "Optional source layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_layer": {
+"type": "string",
+"description": "Optional target layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for this event."
+}
+}
+},
+"layer_reference": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"relationship"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Referenced Earth Brain OS layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"relationship": {
+"type": "string",
+"description": "Relationship between this layer and the referenced layer.",
+"enum": [
+"receives_from",
+"sends_to",
+"coordinates_with",
+"audited_by",
+"regulated_by",
+"protected_by",
+"governed_by",
+"other"
+]
+},
+"description": {
+"type": "string"
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"attribution_required",
+"action_logging_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether agent activity must produce trace records."
+},
+"attribution_required": {
+"type": "boolean",
+"description": "Whether outputs must retain origin attribution."
+},
+"action_logging_required": {
+"type": "boolean",
+"description": "Whether agent actions must be logged."
+},
+"provenance_fields": {
+"type": "array",
+"description": "Required provenance fields for agent outputs.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for this layer."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents, rules, or schemas applied to this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"guardrail_refs": {
+"type": "array",
+"description": "Guardrail or safety mechanism references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known failure modes to monitor.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"risk_controls": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"risk_level": {
+"type": "string",
+"enum": [
+"low",
+"medium",
+"high",
+"critical"
+]
+},
+"safety_checks": {
+"type": "array",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"rollback_strategy": {
+"type": "string",
+"description": "How this layer should roll back or halt unsafe agent behavior."
+},
+"monitoring_signals": {
+"type": "array",
+"items": {
+"type": "string"
+},
+"default": []
+}
+},
+"default": {}
+}
+}
+}
