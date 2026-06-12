@@ -27,7 +27,7 @@
 "layer_id": {
 "type": "string",
 "description": "Stable identifier for this layer instance.",
-"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"pattern": "^v?\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.-]+)?$",
 "examples": [
 "layer:defense-immune"
 ]
