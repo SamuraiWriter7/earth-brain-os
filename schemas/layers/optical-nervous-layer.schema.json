@@ -1,0 +1,668 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/optical-nervous-layer.schema.json",
+"title": "Optical Nervous Layer",
+"description": "Schema for the Optical Nervous Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines optical or high-speed communication infrastructure, signal flow, routing topology, latency boundaries, resilience controls, trace transmission, and governance hooks.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"layer_name",
+"layer_type",
+"layer_version",
+"status",
+"network_scope",
+"optical_nodes",
+"signal_flows",
+"routing_model",
+"input_events",
+"output_events",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Stable identifier for this layer instance.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"layer:optical-nervous"
+]
+},
+"layer_name": {
+"type": "string",
+"const": "Optical Nervous Layer",
+"description": "Human-readable name of the layer."
+},
+"layer_type": {
+"type": "string",
+"const": "optical_nervous_layer",
+"description": "Machine-readable layer type."
+},
+"layer_version": {
+"type": "string",
+"description": "Version of this layer schema or implementation profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"status": {
+"type": "string",
+"description": "Operational status of the layer.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short explanation of this Optical Nervous Layer configuration."
+},
+"network_scope": {
+"$ref": "#/$defs/network_scope"
+},
+"optical_nodes": {
+"type": "array",
+"description": "Nodes that participate in the optical or high-speed nervous system.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/optical_node"
+}
+},
+"signal_flows": {
+"type": "array",
+"description": "Signal routes, data streams, or communication flows handled by this layer.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/signal_flow"
+}
+},
+"routing_model": {
+"$ref": "#/$defs/routing_model"
+},
+"latency_profile": {
+"$ref": "#/$defs/latency_profile"
+},
+"resilience_controls": {
+"$ref": "#/$defs/resilience_controls"
+},
+"input_events": {
+"type": "array",
+"description": "Events or signals accepted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"output_events": {
+"type": "array",
+"description": "Events or signals emitted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"linked_layers": {
+"type": "array",
+"description": "Other Earth Brain OS layers directly connected to this layer.",
+"items": {
+"$ref": "#/$defs/layer_reference"
+},
+"default": []
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
+}
+},
+"$defs": {
+"network_scope": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"transport_medium",
+"operating_domains",
+"coverage_scope",
+"latency_class",
+"human_criticality"
+],
+"properties": {
+"transport_medium": {
+"type": "string",
+"description": "Primary communication medium used by this layer.",
+"enum": [
+"optical_fiber",
+"photonic_interconnect",
+"wireless_optical",
+"hybrid_network",
+"simulated",
+"other"
+]
+},
+"operating_domains": {
+"type": "array",
+"description": "Domains where this nervous layer provides connectivity.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"data_transport",
+"model_communication",
+"agent_coordination",
+"edge_interconnect",
+"sensor_mesh",
+"memory_sync",
+"trace_transmission",
+"compute_fabric",
+"governance_signal",
+"other"
+]
+}
+},
+"coverage_scope": {
+"type": "string",
+"description": "Spatial or logical coverage of this network layer.",
+"enum": [
+"local",
+"regional",
+"national",
+"transnational",
+"planetary",
+"virtual",
+"unspecified"
+]
+},
+"latency_class": {
+"type": "string",
+"description": "Expected latency class for signal transmission.",
+"enum": [
+"best_effort",
+"low_latency",
+"ultra_low_latency",
+"real_time",
+"asynchronous"
+]
+},
+"human_criticality": {
+"type": "string",
+"description": "Degree to which this layer supports human-critical or governance-critical functions.",
+"enum": [
+"non_critical",
+"operational",
+"governance_relevant",
+"safety_critical",
+"civilizational_critical"
+]
+},
+"boundary_conditions": {
+"type": "array",
+"description": "Boundary conditions that limit network operation or data movement.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"optical_node": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"node_id",
+"node_type",
+"role",
+"location_scope",
+"capacity_profile"
+],
+"properties": {
+"node_id": {
+"type": "string",
+"description": "Stable identifier for the optical or high-speed network node.",
+"pattern": "^optical-node:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"optical-node:regional-relay-01"
+]
+},
+"node_type": {
+"type": "string",
+"description": "Functional type of the node.",
+"enum": [
+"edge_node",
+"data_center",
+"relay_node",
+"sensor_gateway",
+"compute_cluster",
+"memory_node",
+"routing_node",
+"governance_gateway",
+"trace_gateway",
+"other"
+]
+},
+"role": {
+"type": "string",
+"description": "Primary responsibility of this node in the Optical Nervous Layer."
+},
+"location_scope": {
+"type": "string",
+"description": "Location granularity of the node.",
+"enum": [
+"local",
+"regional",
+"national",
+"transnational",
+"virtual",
+"unspecified"
+]
+},
+"capacity_profile": {
+"type": "object",
+"description": "Capacity or performance profile for the node.",
+"additionalProperties": false,
+"properties": {
+"bandwidth_class": {
+"type": "string",
+"enum": [
+"low",
+"medium",
+"high",
+"very_high",
+"experimental",
+"unspecified"
+]
+},
+"latency_target": {
+"type": "string",
+"description": "Human-readable latency target or class."
+},
+"availability_target": {
+"type": "string",
+"description": "Human-readable availability target."
+}
+},
+"default": {}
+},
+"trusted_boundary": {
+"type": "string",
+"description": "Trust boundary applied to this node.",
+"enum": [
+"trusted",
+"semi_trusted",
+"untrusted",
+"public",
+"private",
+"unknown"
+]
+}
+}
+},
+"signal_flow": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"flow_id",
+"flow_type",
+"source_node",
+"target_node",
+"payload_class",
+"priority"
+],
+"properties": {
+"flow_id": {
+"type": "string",
+"description": "Stable identifier for the signal flow.",
+"pattern": "^signal-flow:[a-z0-9][a-z0-9._:-]*$",
+"examples": [
+"signal-flow:agent-to-cortex"
+]
+},
+"flow_type": {
+"type": "string",
+"description": "Type of signal or data flow.",
+"enum": [
+"agent_message",
+"memory_sync",
+"trace_stream",
+"knowledge_query",
+"governance_signal",
+"defense_alert",
+"royalty_event",
+"human_feedback",
+"system_heartbeat",
+"other"
+]
+},
+"source_node": {
+"type": "string",
+"description": "Source optical node identifier.",
+"pattern": "^optical-node:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_node": {
+"type": "string",
+"description": "Target optical node identifier.",
+"pattern": "^optical-node:[a-z0-9][a-z0-9.*:-]*$"
+},
+"payload_class": {
+"type": "string",
+"description": "Class of information carried by the signal.",
+"enum": [
+"public",
+"internal",
+"sensitive",
+"trace_required",
+"governance_required",
+"safety_critical",
+"unknown"
+]
+},
+"priority": {
+"type": "string",
+"description": "Transmission priority of the signal flow.",
+"enum": [
+"low",
+"normal",
+"high",
+"urgent",
+"critical"
+]
+},
+"expected_direction": {
+"type": "string",
+"description": "Expected directionality of this signal flow.",
+"enum": [
+"one_way",
+"bidirectional",
+"broadcast",
+"multicast",
+"event_driven"
+]
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for payload validation."
+}
+}
+},
+"routing_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"topology",
+"routing_strategy",
+"congestion_policy",
+"failure_reroute_policy"
+],
+"properties": {
+"topology": {
+"type": "string",
+"description": "Network topology used by this layer.",
+"enum": [
+"point_to_point",
+"mesh",
+"hierarchical",
+"hub_and_spoke",
+"ring",
+"hybrid",
+"adaptive"
+]
+},
+"routing_strategy": {
+"type": "string",
+"description": "How signals are routed across the layer."
+},
+"congestion_policy": {
+"type": "string",
+"description": "Policy for handling congestion or saturation."
+},
+"failure_reroute_policy": {
+"type": "string",
+"description": "Policy for rerouting signals during node or link failure."
+},
+"routing_constraints": {
+"type": "array",
+"description": "Constraints that limit routing paths.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"latency_profile": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"target_latency": {
+"type": "string",
+"description": "Human-readable target latency."
+},
+"maximum_latency": {
+"type": "string",
+"description": "Human-readable maximum acceptable latency."
+},
+"jitter_tolerance": {
+"type": "string",
+"enum": [
+"low",
+"medium",
+"high",
+"unspecified"
+]
+},
+"degradation_behavior": {
+"type": "string",
+"description": "Expected behavior when latency exceeds the target."
+}
+},
+"default": {}
+},
+"resilience_controls": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"redundancy_model": {
+"type": "string",
+"enum": [
+"none",
+"backup_path",
+"multi_path",
+"geo_redundant",
+"self_healing",
+"unspecified"
+]
+},
+"failure_detection": {
+"type": "string",
+"description": "How failures are detected."
+},
+"fallback_mode": {
+"type": "string",
+"description": "Fallback mode when the optical nervous layer degrades."
+},
+"isolation_policy": {
+"type": "string",
+"description": "Policy for isolating unstable or compromised nodes."
+},
+"monitoring_signals": {
+"type": "array",
+"items": {
+"type": "string"
+},
+"default": []
+}
+},
+"default": {}
+},
+"event_port": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_type",
+"direction",
+"description"
+],
+"properties": {
+"event_type": {
+"type": "string",
+"description": "Machine-readable event or signal type.",
+"pattern": "^[a-z][a-z0-9._-]*$",
+"examples": [
+"optical.signal.transmitted"
+]
+},
+"direction": {
+"type": "string",
+"description": "Direction of the event relative to this layer.",
+"enum": [
+"input",
+"output"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the event."
+},
+"source_layer": {
+"type": "string",
+"description": "Optional source layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_layer": {
+"type": "string",
+"description": "Optional target layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for this event."
+}
+}
+},
+"layer_reference": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"relationship"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Referenced Earth Brain OS layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"relationship": {
+"type": "string",
+"description": "Relationship between this layer and the referenced layer.",
+"enum": [
+"receives_from",
+"sends_to",
+"routes_for",
+"synchronizes_with",
+"audited_by",
+"regulated_by",
+"protected_by",
+"governed_by",
+"other"
+]
+},
+"description": {
+"type": "string"
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"signal_logging_required",
+"routing_audit_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether signal transmission must produce trace records."
+},
+"signal_logging_required": {
+"type": "boolean",
+"description": "Whether signal flow activity must be logged."
+},
+"routing_audit_required": {
+"type": "boolean",
+"description": "Whether routing decisions must be auditable."
+},
+"provenance_fields": {
+"type": "array",
+"description": "Required provenance fields for transmitted signals.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for this layer."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents, rules, or schemas applied to this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"security_refs": {
+"type": "array",
+"description": "Security, defense, or resilience mechanism references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known failure modes to monitor.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+}
+}
+}
