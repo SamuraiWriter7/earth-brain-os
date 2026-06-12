@@ -36,14 +36,15 @@ tags:
 - "v0.2"
 
 layer_order:
-  - "ai_agent_layer"
-  - "optical_nervous_layer"
-  - "knowledge_cortex_layer"
-  - "trace_attribution_layer"
-  - "royalty_circulation_layer"
-  - "kazene_regulation_layer"
-  - "defense_immune_layer"
-  - "human_governance_layer"
+
+- "ai_agent_layer"
+- "optical_nervous_layer"
+- "knowledge_cortex_layer"
+- "trace_attribution_layer"
+- "royalty_circulation_layer"
+- "kazene_regulation_layer"
+- "defense_immune_layer"
+- "human_governance_layer"
 
 layers:
 ai_agent_layer:
@@ -1099,7 +1100,6 @@ governance_bodies:
     body_name: "Public Interest Council"
     authority_scope:
       - "review"
-      - "recommend"
       - "escalate"
     decision_rights: "recommend"
     accountability_status: "representative"
@@ -1219,74 +1219,81 @@ governance_hooks:
     - "governance_capture"
 
 cross_layer_links:
-  - link_id: "cross-layer-link:agent-to-knowledge"
-    source_layer: "ai_agent_layer"
-    target_layer: "knowledge_cortex_layer"
-    relationship: "queries"
-    description: "AI agents query the Knowledge Cortex Layer for validated context."
-    event_types:
-      - event_type: "knowledge.query.requested"
-        required: true
 
-  - link_id: "cross-layer-link:knowledge-to-trace"
-    source_layer: "knowledge_cortex_layer"
-    target_layer: "trace_attribution_layer"
-    relationship: "traces"
-    description: "Knowledge use is traced and attributed before downstream circulation."
-    event_types:
-      - event_type: "trace.record.requested"
-      - event_type: "trace.record.created"
-        required: true
+- link_id: "cross-layer-link:agent-to-knowledge"
+  source_layer: "ai_agent_layer"
+  target_layer: "knowledge_cortex_layer"
+  relationship: "queries"
+  description: "AI agents query the Knowledge Cortex Layer for validated context."
+  event_types:
 
-  - link_id: "cross-layer-link:trace-to-royalty"
-    source_layer: "trace_attribution_layer"
-    target_layer: "royalty_circulation_layer"
-    relationship: "allocates_for"
-    description: "Attribution records are routed into value circulation."
-    event_types:
-      - event_type: "royalty.route.requested"
-      - event_type: "royalty.route.created"
-        required: true
+  - "knowledge.query.requested"
+    required: true
 
-  - link_id: "cross-layer-link:royalty-to-kazene"
-    source_layer: "royalty_circulation_layer"
-    target_layer: "kazene_regulation_layer"
-    relationship: "regulates"
-    description: "Kazene Regulation Layer moderates pressure and imbalance in value circulation."
-    event_types:
-      - event_type: "kazene.regulation.requested"
-      - event_type: "kazene.regulation.applied"
-        required: true
+- link_id: "cross-layer-link:knowledge-to-trace"
+  source_layer: "knowledge_cortex_layer"
+  target_layer: "trace_attribution_layer"
+  relationship: "traces"
+  description: "Knowledge use is traced and attributed before downstream circulation."
+  event_types:
 
-  - link_id: "cross-layer-link:kazene-to-defense"
-    source_layer: "kazene_regulation_layer"
-    target_layer: "defense_immune_layer"
-    relationship: "protects"
-    description: "Regulation signals feed immune monitoring when instability or drift appears."
-    event_types:
-      - event_type: "defense.immune.signal.received"
-      - event_type: "defense.immune.signal.detected"
-        required: true
+  - "trace.record.requested"
+  - "trace.record.created"
+    required: true
 
-  - link_id: "cross-layer-link:defense-to-governance"
-    source_layer: "defense_immune_layer"
-    target_layer: "human_governance_layer"
-    relationship: "escalates_to"
-    description: "Defense immune events escalate to human governance when risk or rights impact is significant."
-    event_types:
-      - event_type: "human.governance.review.requested"
-      - event_type: "human.governance.decision.recorded"
-        required: true
+- link_id: "cross-layer-link:trace-to-royalty"
+  source_layer: "trace_attribution_layer"
+  target_layer: "royalty_circulation_layer"
+  relationship: "allocates_for"
+  description: "Attribution records are routed into value circulation."
+  event_types:
 
-  - link_id: "cross-layer-link:governance-to-agent"
-    source_layer: "human_governance_layer"
-    target_layer: "ai_agent_layer"
-    relationship: "governs"
-    description: "Human governance decisions constrain future AI agent behavior."
-    event_types:
-      - event_type: "agent.task.requested"
-        required: true
+  - "royalty.route.requested"
+  - "royalty.route.created"
+    required: true
 
+- link_id: "cross-layer-link:royalty-to-kazene"
+  source_layer: "royalty_circulation_layer"
+  target_layer: "kazene_regulation_layer"
+  relationship: "regulates"
+  description: "Kazene Regulation Layer moderates pressure and imbalance in value circulation."
+  event_types:
+
+  - "kazene.regulation.requested"
+  - "kazene.regulation.applied"
+    required: true
+
+- link_id: "cross-layer-link:kazene-to-defense"
+  source_layer: "kazene_regulation_layer"
+  target_layer: "defense_immune_layer"
+  relationship: "protects"
+  description: "Regulation signals feed immune monitoring when instability or drift appears."
+  event_types:
+
+  - "defense.immune.signal.received"
+  - "defense.immune.signal.detected"
+    required: true
+
+- link_id: "cross-layer-link:defense-to-governance"
+  source_layer: "defense_immune_layer"
+  target_layer: "human_governance_layer"
+  relationship: "escalates_to"
+  description: "Defense immune events escalate to human governance when risk or rights impact is significant."
+  event_types:
+
+  - "human.governance.review.requested"
+  - "human.governance.decision.recorded"
+    required: true
+
+- link_id: "cross-layer-link:governance-to-agent"
+  source_layer: "human_governance_layer"
+  target_layer: "ai_agent_layer"
+  relationship: "governs"
+  description: "Human governance decisions constrain future AI agent behavior."
+  event_types:
+
+  - "agent.task.requested"
+    required: true
 
 integration_policy:
 layer_validation_required: true
@@ -1328,4 +1335,3 @@ failure_modes:
 - "cross_layer_inconsistency"
 - "untraced_event"
 - "governance_bypass"
-
