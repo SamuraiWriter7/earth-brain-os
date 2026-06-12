@@ -1,0 +1,711 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/knowledge-cortex-layer.schema.json",
+"title": "Knowledge Cortex Layer",
+"description": "Schema for the Knowledge Cortex Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines knowledge sources, semantic memory structures, retrieval models, validation mechanisms, knowledge graph links, trace requirements, and governance hooks.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"layer_name",
+"layer_type",
+"layer_version",
+"status",
+"knowledge_scope",
+"knowledge_sources",
+"cortex_nodes",
+"retrieval_model",
+"validation_model",
+"input_events",
+"output_events",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Stable identifier for this layer instance.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"layer:knowledge-cortex"
+]
+},
+"layer_name": {
+"type": "string",
+"const": "Knowledge Cortex Layer",
+"description": "Human-readable name of the layer."
+},
+"layer_type": {
+"type": "string",
+"const": "knowledge_cortex_layer",
+"description": "Machine-readable layer type."
+},
+"layer_version": {
+"type": "string",
+"description": "Version of this layer schema or implementation profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"status": {
+"type": "string",
+"description": "Operational status of the layer.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short explanation of this Knowledge Cortex Layer configuration."
+},
+"knowledge_scope": {
+"$ref": "#/$defs/knowledge_scope"
+},
+"knowledge_sources": {
+"type": "array",
+"description": "Knowledge sources available to this cortex layer.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/knowledge_source"
+}
+},
+"cortex_nodes": {
+"type": "array",
+"description": "Logical cortex nodes that organize knowledge, memory, semantic maps, or domain-specific reasoning structures.",
+"minItems": 1,
+"items": {
+"$ref": "#/$defs/cortex_node"
+}
+},
+"semantic_maps": {
+"type": "array",
+"description": "Semantic maps, ontologies, or knowledge graph structures used by this layer.",
+"items": {
+"$ref": "#/$defs/semantic_map"
+},
+"default": []
+},
+"retrieval_model": {
+"$ref": "#/$defs/retrieval_model"
+},
+"validation_model": {
+"$ref": "#/$defs/validation_model"
+},
+"memory_policy": {
+"$ref": "#/$defs/memory_policy"
+},
+"input_events": {
+"type": "array",
+"description": "Events or signals accepted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"output_events": {
+"type": "array",
+"description": "Events or signals emitted by this layer.",
+"items": {
+"$ref": "#/$defs/event_port"
+},
+"default": []
+},
+"linked_layers": {
+"type": "array",
+"description": "Other Earth Brain OS layers directly connected to this layer.",
+"items": {
+"$ref": "#/$defs/layer_reference"
+},
+"default": []
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
+}
+},
+"$defs": {
+"knowledge_scope": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"knowledge_domains",
+"knowledge_mode",
+"authority_level",
+"update_policy",
+"human_interpretability"
+],
+"properties": {
+"knowledge_domains": {
+"type": "array",
+"description": "Domains represented in this knowledge cortex.",
+"minItems": 1,
+"items": {
+"type": "string",
+"enum": [
+"scientific",
+"technical",
+"cultural",
+"legal",
+"governance",
+"economic",
+"historical",
+"medical",
+"educational",
+"creative",
+"trace_records",
+"agent_memory",
+"human_feedback",
+"other"
+]
+}
+},
+"knowledge_mode": {
+"type": "string",
+"description": "Primary mode of knowledge organization.",
+"enum": [
+"document_index",
+"knowledge_graph",
+"semantic_memory",
+"episodic_memory",
+"procedural_memory",
+"hybrid_cortex",
+"other"
+]
+},
+"authority_level": {
+"type": "string",
+"description": "Authority level of this knowledge layer.",
+"enum": [
+"informational",
+"advisory",
+"operational",
+"governance_relevant",
+"safety_critical"
+]
+},
+"update_policy": {
+"type": "string",
+"description": "How knowledge is updated, refreshed, corrected, or retired."
+},
+"human_interpretability": {
+"type": "string",
+"description": "Expected interpretability level of the knowledge structure.",
+"enum": [
+"low",
+"medium",
+"high",
+"required"
+]
+},
+"boundary_conditions": {
+"type": "array",
+"description": "Boundary conditions limiting knowledge use, retrieval, or interpretation.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"knowledge_source": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"source_id",
+"source_type",
+"source_name",
+"trust_level",
+"license_status",
+"update_frequency"
+],
+"properties": {
+"source_id": {
+"type": "string",
+"description": "Stable identifier for the knowledge source.",
+"pattern": "^knowledge-source:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"knowledge-source:research-corpus"
+]
+},
+"source_type": {
+"type": "string",
+"description": "Type of knowledge source.",
+"enum": [
+"document",
+"dataset",
+"database",
+"knowledge_graph",
+"human_input",
+"agent_generated",
+"trace_log",
+"sensor_stream",
+"governance_record",
+"external_api",
+"other"
+]
+},
+"source_name": {
+"type": "string",
+"description": "Human-readable source name."
+},
+"source_ref": {
+"type": "string",
+"description": "Optional URI, file path, registry key, or source reference."
+},
+"trust_level": {
+"type": "string",
+"description": "Trust level assigned to this source.",
+"enum": [
+"unverified",
+"low",
+"medium",
+"high",
+"authoritative"
+]
+},
+"license_status": {
+"type": "string",
+"description": "License or usage status of this knowledge source.",
+"enum": [
+"unknown",
+"open",
+"restricted",
+"licensed",
+"internal",
+"permission_required",
+"prohibited"
+]
+},
+"update_frequency": {
+"type": "string",
+"description": "Expected update frequency.",
+"enum": [
+"static",
+"manual",
+"daily",
+"weekly",
+"monthly",
+"real_time",
+"event_driven",
+"unknown"
+]
+},
+"attribution_required": {
+"type": "boolean",
+"description": "Whether outputs derived from this source require attribution.",
+"default": true
+}
+}
+},
+"cortex_node": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"node_id",
+"node_type",
+"role",
+"knowledge_domain",
+"access_level"
+],
+"properties": {
+"node_id": {
+"type": "string",
+"description": "Stable identifier for the cortex node.",
+"pattern": "^cortex-node:[a-z0-9][a-z0-9._:-]*$",
+"examples": [
+"cortex-node:governance-memory"
+]
+},
+"node_type": {
+"type": "string",
+"description": "Functional type of cortex node.",
+"enum": [
+"semantic_index",
+"memory_store",
+"knowledge_graph_node",
+"ontology_node",
+"retrieval_node",
+"validation_node",
+"context_node",
+"trace_memory_node",
+"other"
+]
+},
+"role": {
+"type": "string",
+"description": "Primary responsibility of this cortex node."
+},
+"knowledge_domain": {
+"type": "string",
+"description": "Primary knowledge domain represented by this node."
+},
+"access_level": {
+"type": "string",
+"description": "Access level required to read from or write to this node.",
+"enum": [
+"public",
+"internal",
+"restricted",
+"governance_only",
+"human_review_required"
+]
+},
+"linked_source_ids": {
+"type": "array",
+"description": "Knowledge source identifiers linked to this cortex node.",
+"items": {
+"type": "string",
+"pattern": "^knowledge-source:[a-z0-9][a-z0-9.*:-]*$"
+},
+"default": []
+}
+}
+},
+"semantic_map": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"map_id",
+"map_type",
+"description"
+],
+"properties": {
+"map_id": {
+"type": "string",
+"description": "Stable identifier for the semantic map.",
+"pattern": "^semantic-map:[a-z0-9][a-z0-9.*:-]*$"
+},
+"map_type": {
+"type": "string",
+"description": "Type of semantic structure.",
+"enum": [
+"ontology",
+"taxonomy",
+"knowledge_graph",
+"concept_map",
+"trace_map",
+"causal_map",
+"value_map",
+"other"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the semantic map."
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema or ontology reference."
+},
+"linked_nodes": {
+"type": "array",
+"description": "Cortex nodes linked to this semantic map.",
+"items": {
+"type": "string",
+"pattern": "^cortex-node:[a-z0-9][a-z0-9._:-]*$"
+},
+"default": []
+}
+}
+},
+"retrieval_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"retrieval_method",
+"ranking_policy",
+"context_window_policy",
+"uncertainty_handling"
+],
+"properties": {
+"retrieval_method": {
+"type": "string",
+"description": "Primary retrieval method used by this layer.",
+"enum": [
+"keyword",
+"semantic",
+"graph_traversal",
+"hybrid",
+"agent_mediated",
+"human_curated",
+"other"
+]
+},
+"ranking_policy": {
+"type": "string",
+"description": "How retrieved knowledge is ranked or prioritized."
+},
+"context_window_policy": {
+"type": "string",
+"description": "How retrieved context is selected, compressed, or discarded."
+},
+"uncertainty_handling": {
+"type": "string",
+"description": "How uncertain, conflicting, or incomplete knowledge is handled."
+},
+"fallback_strategy": {
+"type": "string",
+"description": "Fallback strategy when retrieval fails or confidence is low."
+}
+}
+},
+"validation_model": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"validation_method",
+"consistency_check_required",
+"source_verification_required",
+"conflict_resolution"
+],
+"properties": {
+"validation_method": {
+"type": "string",
+"description": "Primary method for validating knowledge.",
+"enum": [
+"schema_validation",
+"source_cross_check",
+"human_review",
+"consensus_check",
+"trace_audit",
+"automated_test",
+"hybrid",
+"other"
+]
+},
+"consistency_check_required": {
+"type": "boolean",
+"description": "Whether semantic or logical consistency checks are required."
+},
+"source_verification_required": {
+"type": "boolean",
+"description": "Whether source verification is required before use."
+},
+"conflict_resolution": {
+"type": "string",
+"description": "How conflicting knowledge claims are resolved."
+},
+"confidence_threshold": {
+"type": "number",
+"description": "Optional confidence threshold for accepting retrieved knowledge.",
+"minimum": 0,
+"maximum": 1
+}
+}
+},
+"memory_policy": {
+"type": "object",
+"additionalProperties": false,
+"properties": {
+"memory_type": {
+"type": "string",
+"enum": [
+"short_term",
+"long_term",
+"episodic",
+"semantic",
+"procedural",
+"trace_memory",
+"hybrid",
+"unspecified"
+]
+},
+"write_policy": {
+"type": "string",
+"description": "Conditions under which new knowledge may be written."
+},
+"deletion_policy": {
+"type": "string",
+"description": "Conditions under which knowledge may be deleted or retired."
+},
+"correction_policy": {
+"type": "string",
+"description": "Conditions under which knowledge may be corrected."
+},
+"retention_policy": {
+"type": "string",
+"description": "Retention policy for knowledge and memory records."
+}
+},
+"default": {}
+},
+"event_port": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_type",
+"direction",
+"description"
+],
+"properties": {
+"event_type": {
+"type": "string",
+"description": "Machine-readable event or signal type.",
+"pattern": "^[a-z][a-z0-9.*-]*$",
+"examples": [
+"knowledge.query.requested"
+]
+},
+"direction": {
+"type": "string",
+"description": "Direction of the event relative to this layer.",
+"enum": [
+"input",
+"output"
+]
+},
+"description": {
+"type": "string",
+"description": "Short description of the event."
+},
+"source_layer": {
+"type": "string",
+"description": "Optional source layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
+},
+"target_layer": {
+"type": "string",
+"description": "Optional target layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"schema_ref": {
+"type": "string",
+"description": "Optional schema reference for this event."
+}
+}
+},
+"layer_reference": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"layer_id",
+"relationship"
+],
+"properties": {
+"layer_id": {
+"type": "string",
+"description": "Referenced Earth Brain OS layer identifier.",
+"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
+},
+"relationship": {
+"type": "string",
+"description": "Relationship between this layer and the referenced layer.",
+"enum": [
+"receives_from",
+"sends_to",
+"queries",
+"provides_context_to",
+"validated_by",
+"audited_by",
+"regulated_by",
+"protected_by",
+"governed_by",
+"other"
+]
+},
+"description": {
+"type": "string"
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"source_attribution_required",
+"retrieval_logging_required",
+"knowledge_update_logging_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether knowledge access or use must produce trace records."
+},
+"source_attribution_required": {
+"type": "boolean",
+"description": "Whether outputs must preserve source attribution."
+},
+"retrieval_logging_required": {
+"type": "boolean",
+"description": "Whether retrieval operations must be logged."
+},
+"knowledge_update_logging_required": {
+"type": "boolean",
+"description": "Whether updates to knowledge structures must be logged."
+},
+"provenance_fields": {
+"type": "array",
+"description": "Required provenance fields for knowledge outputs.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for this layer."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents, rules, or schemas applied to this layer.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"license_policy_refs": {
+"type": "array",
+"description": "License, permission, or attribution policy references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known failure modes to monitor.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+}
+}
+}
