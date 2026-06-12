@@ -1,297 +1,500 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/earth-brain-event.schema.json",
-  "title": "Earth Brain Event",
-  "description": "Integrated schema for Earth Brain OS v0.2 Modular Event Architecture.",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "event_id",
-    "event_type",
-    "event_version",
-    "created_at",
-    "status",
-    "architecture",
-    "layers",
-    "integration_policy",
-    "trace_requirements",
-    "governance_hooks"
-  ],
-
-  "properties": {
-    "event_id": {
-      "type": "string",
-      "pattern": "^earth-brain-event:[a-z0-9][a-z0-9.*:-]*$"
-    },
-    "event_type": {
-      "type": "string",
-      "const": "earth_brain_event"
-    },
-    "event_version": {
-      "type": "string",
-      "pattern": "^v?\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.-]+)?$"
-    },
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "updated_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "status": {
-      "type": "string",
-      "enum": ["draft", "experimental", "active", "deprecated", "retired", "superseded"]
-    },
-    "description": {
-      "type": "string"
-    },
-
-    "architecture": { "$ref": "#/$defs/architecture" },
-    "event_context": { "$ref": "#/$defs/event_context" },
-
-    "layers": {
-      "$ref": "#/$defs/layers"
-    },
-
-    "layer_order": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": [
-          "ai_agent_layer",
-          "optical_nervous_layer",
-          "knowledge_cortex_layer",
-          "trace_attribution_layer",
-          "royalty_circulation_layer",
-          "kazene_regulation_layer",
-          "defense_immune_layer",
-          "human_governance_layer"
-        ]
-      },
-      "uniqueItems": true
-    },
-
-    "cross_layer_links": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/cross_layer_link" },
-      "default": []
-    },
-
-    "integration_policy": { "$ref": "#/$defs/integration_policy" },
-    "trace_requirements": { "$ref": "#/$defs/trace_requirements" },
-    "governance_hooks": { "$ref": "#/$defs/governance_hooks" },
-
-    "extension_fields": {
-      "type": "object",
-      "additionalProperties": true,
-      "default": {}
-    }
-  },
-
-  "$defs": {
-    "architecture": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "architecture_name",
-        "architecture_version",
-        "schema_profile",
-        "integration_mode",
-        "layer_count"
-      ],
-      "properties": {
-        "architecture_name": {
-          "type": "string",
-          "const": "Earth Brain OS Modular Event Architecture"
-        },
-        "architecture_version": { "type": "string" },
-        "schema_profile": {
-          "type": "string",
-          "const": "modular_event_architecture"
-        },
-        "integration_mode": {
-          "type": "string",
-          "enum": ["ref_based", "embedded_layers", "hybrid"]
-        },
-        "layer_count": {
-          "type": "integer",
-          "const": 8
-        },
-        "design_principles": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "modularity",
-              "traceability",
-              "human_governance",
-              "value_circulation",
-              "defense_resilience",
-              "kazene_regulation",
-              "knowledge_integrity",
-              "agent_coordination",
-              "optical_connectivity",
-              "other"
-            ]
-          }
-        }
-      }
-    },
-
-    "event_context": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "context_id": { "type": "string" },
-        "context_type": { "type": "string" },
-        "summary": { "type": "string" },
-        "related_documents": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "tags": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
-    },
-
-    "layers": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "ai_agent_layer",
-        "optical_nervous_layer",
-        "knowledge_cortex_layer",
-        "trace_attribution_layer",
-        "royalty_circulation_layer",
-        "kazene_regulation_layer",
-        "defense_immune_layer",
-        "human_governance_layer"
-      ],
-      "properties": {
-        "ai_agent_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/ai-agent-layer.schema.json"
-        },
-        "optical_nervous_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/optical-nervous-layer.schema.json"
-        },
-        "knowledge_cortex_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/knowledge-cortex-layer.schema.json"
-        },
-        "trace_attribution_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/trace-attribution-layer.schema.json"
-        },
-        "royalty_circulation_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/royalty-circulation-layer.schema.json"
-        },
-        "kazene_regulation_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/kazene-regulation-layer.schema.json"
-        },
-        "defense_immune_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/defense-immune-layer.schema.json"
-        },
-        "human_governance_layer": {
-          "$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/human-governance-layer.schema.json"
-        }
-      }
-    },
-
-    "cross_layer_link": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "link_id",
-        "source_layer",
-        "target_layer",
-        "relationship",
-        "description"
-      ],
-      "properties": {
-        "link_id": { "type": "string" },
-        "source_layer": { "type": "string" },
-        "target_layer": { "type": "string" },
-        "relationship": { "type": "string" },
-        "description": { "type": "string" },
-        "event_types": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "required": { "type": "boolean" }
-      }
-    },
-
-    "integration_policy": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "layer_validation_required",
-        "cross_layer_consistency_required",
-        "missing_layer_policy",
-        "version_alignment_policy",
-        "failure_policy"
-      ],
-      "properties": {
-        "layer_validation_required": { "type": "boolean" },
-        "cross_layer_consistency_required": { "type": "boolean" },
-        "missing_layer_policy": { "type": "string" },
-        "version_alignment_policy": { "type": "string" },
-        "failure_policy": { "type": "string" },
-        "future_lifecycle_ref": { "type": "string" }
-      }
-    },
-
-    "trace_requirements": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "trace_required",
-        "layer_trace_required",
-        "cross_layer_trace_required",
-        "provenance_required"
-      ],
-      "properties": {
-        "trace_required": { "type": "boolean" },
-        "layer_trace_required": { "type": "boolean" },
-        "cross_layer_trace_required": { "type": "boolean" },
-        "provenance_required": { "type": "boolean" },
-        "minimum_provenance_fields": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "retention_policy": { "type": "string" }
-      }
-    },
-
-    "governance_hooks": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "human_review_boundary",
-        "escalation_channels",
-        "governance_layer_required"
-      ],
-      "properties": {
-        "human_review_boundary": { "type": "string" },
-        "governance_layer_required": { "type": "boolean" },
-        "policy_refs": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "constitutional_refs": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "escalation_channels": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "failure_modes": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
-    }
-  }
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/earth-brain-event.schema.json",
+"title": "Earth Brain Event",
+"description": "Integrated schema for Earth Brain OS v0.2 Modular Event Architecture. This schema defines the top-level Earth Brain event and references the eight modular layer schemas.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_id",
+"event_type",
+"event_version",
+"created_at",
+"status",
+"architecture",
+"layers",
+"integration_policy",
+"trace_requirements",
+"governance_hooks"
+],
+"properties": {
+"event_id": {
+"type": "string",
+"description": "Stable identifier for this Earth Brain OS event.",
+"pattern": "^earth-brain-event:[a-zA-Z0-9.*:-]+$",
+"examples": [
+"earth-brain-event:v0.2-example-001"
+]
+},
+"event_type": {
+"type": "string",
+"description": "Machine-readable type of this integrated event.",
+"const": "earth_brain_event"
+},
+"event_version": {
+"type": "string",
+"description": "Version of the integrated Earth Brain event schema or release profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"created_at": {
+"type": "string",
+"description": "Creation timestamp for this event.",
+"format": "date-time"
+},
+"updated_at": {
+"type": "string",
+"description": "Optional update timestamp for this event.",
+"format": "date-time"
+},
+"status": {
+"type": "string",
+"description": "Lifecycle status of this integrated event.",
+"enum": [
+"draft",
+"experimental",
+"active",
+"deprecated",
+"retired"
+]
+},
+"description": {
+"type": "string",
+"description": "Short human-readable explanation of this integrated event."
+},
+"architecture": {
+"$ref": "#/$defs/architecture"
+},
+"event_context": {
+"$ref": "#/$defs/event_context"
+},
+"layer_order": {
+"type": "array",
+"description": "Recommended processing or conceptual order of the modular layers.",
+"items": {
+"type": "string",
+"enum": [
+"ai_agent_layer",
+"optical_nervous_layer",
+"knowledge_cortex_layer",
+"trace_attribution_layer",
+"royalty_circulation_layer",
+"kazene_regulation_layer",
+"defense_immune_layer",
+"human_governance_layer"
+]
+},
+"default": []
+},
+"layers": {
+"$ref": "#/$defs/layers"
+},
+"cross_layer_links": {
+"type": "array",
+"description": "Declared relationships and event pathways between modular layers.",
+"items": {
+"$ref": "#/$defs/cross_layer_link"
+},
+"default": []
+},
+"integration_policy": {
+"$ref": "#/$defs/integration_policy"
+},
+"trace_requirements": {
+"$ref": "#/$defs/trace_requirements"
+},
+"governance_hooks": {
+"$ref": "#/$defs/governance_hooks"
+},
+"extension_fields": {
+"type": "object",
+"description": "Reserved space for implementation-specific extensions.",
+"additionalProperties": true,
+"default": {}
 }
+},
+"$defs": {
+"architecture": {
+"type": "object",
+"description": "Architecture metadata for the integrated Earth Brain OS event.",
+"additionalProperties": false,
+"required": [
+"architecture_name",
+"architecture_version",
+"schema_profile",
+"integration_mode",
+"layer_count"
+],
+"properties": {
+"architecture_name": {
+"type": "string",
+"description": "Human-readable architecture name.",
+"examples": [
+"Earth Brain OS Modular Event Architecture"
+]
+},
+"architecture_version": {
+"type": "string",
+"description": "Architecture version or release profile.",
+"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"examples": [
+"v0.2.0-candidate"
+]
+},
+"schema_profile": {
+"type": "string",
+"description": "Schema profile used by this integrated event.",
+"enum": [
+"modular_event_architecture",
+"reference_model",
+"experimental_profile",
+"implementation_profile"
+]
+},
+"integration_mode": {
+"type": "string",
+"description": "How the integrated event composes modular layer schemas.",
+"enum": [
+"ref_based",
+"embedded",
+"hybrid"
+]
+},
+"layer_count": {
+"type": "integer",
+"description": "Number of modular layers expected in this event.",
+"const": 8
+},
+"design_principles": {
+"type": "array",
+"description": "Design principles represented by this architecture.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"event_context": {
+"type": "object",
+"description": "Context metadata for this integrated event.",
+"additionalProperties": false,
+"properties": {
+"context_id": {
+"type": "string",
+"description": "Stable identifier for the context record.",
+"pattern": "^context:[a-zA-Z0-9.*:-]+$"
+},
+"context_type": {
+"type": "string",
+"description": "Type of context represented by this event.",
+"enum": [
+"reference_model",
+"release_candidate",
+"implementation_example",
+"governance_review",
+"incident_review",
+"research_note",
+"other"
+]
+},
+"summary": {
+"type": "string",
+"description": "Short summary of the event context."
+},
+"related_documents": {
+"type": "array",
+"description": "Related documents, files, or references.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"tags": {
+"type": "array",
+"description": "Searchable tags for this event context.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+},
+"layers": {
+"type": "object",
+"description": "Container for the eight modular Earth Brain OS layer schemas.",
+"additionalProperties": false,
+"required": [
+"ai_agent_layer",
+"optical_nervous_layer",
+"knowledge_cortex_layer",
+"trace_attribution_layer",
+"royalty_circulation_layer",
+"kazene_regulation_layer",
+"defense_immune_layer",
+"human_governance_layer"
+],
+"properties": {
+"ai_agent_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/ai-agent-layer.schema.json",
+"description": "AI Agent Layer reference."
+},
+"optical_nervous_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/optical-nervous-layer.schema.json",
+"description": "Optical Nervous Layer reference."
+},
+"knowledge_cortex_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/knowledge-cortex-layer.schema.json",
+"description": "Knowledge Cortex Layer reference."
+},
+"trace_attribution_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/trace-attribution-layer.schema.json",
+"description": "Trace Attribution Layer reference."
+},
+"royalty_circulation_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/royalty-circulation-layer.schema.json",
+"description": "Royalty Circulation Layer reference."
+},
+"kazene_regulation_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/kazene-regulation-layer.schema.json",
+"description": "Kazene Regulation Layer reference."
+},
+"defense_immune_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/defense-immune-layer.schema.json",
+"description": "Defense Immune Layer reference."
+},
+"human_governance_layer": {
+"$ref": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/human-governance-layer.schema.json",
+"description": "Human Governance Layer reference."
+}
+}
+},
+"cross_layer_link": {
+"type": "object",
+"description": "Relationship and event pathway between two modular layers.",
+"additionalProperties": false,
+"required": [
+"link_id",
+"source_layer",
+"target_layer",
+"relationship"
+],
+"properties": {
+"link_id": {
+"type": "string",
+"description": "Stable identifier for the cross-layer link.",
+"pattern": "^cross-layer-link:[a-z0-9][a-z0-9.*:-]*$",
+"examples": [
+"cross-layer-link:agent-to-knowledge"
+]
+},
+"source_layer": {
+"type": "string",
+"description": "Source layer type for this link.",
+"enum": [
+"ai_agent_layer",
+"optical_nervous_layer",
+"knowledge_cortex_layer",
+"trace_attribution_layer",
+"royalty_circulation_layer",
+"kazene_regulation_layer",
+"defense_immune_layer",
+"human_governance_layer"
+]
+},
+"target_layer": {
+"type": "string",
+"description": "Target layer type for this link.",
+"enum": [
+"ai_agent_layer",
+"optical_nervous_layer",
+"knowledge_cortex_layer",
+"trace_attribution_layer",
+"royalty_circulation_layer",
+"kazene_regulation_layer",
+"defense_immune_layer",
+"human_governance_layer"
+]
+},
+"relationship": {
+"type": "string",
+"description": "Semantic relationship between source and target layers.",
+"enum": [
+"queries",
+"traces",
+"allocates_for",
+"regulates",
+"protects",
+"escalates_to",
+"governs",
+"sends_to",
+"receives_from",
+"routes_to",
+"synchronizes_with",
+"audits",
+"reviews",
+"other"
+]
+},
+"description": {
+"type": "string",
+"description": "Human-readable description of the cross-layer link."
+},
+"event_types": {
+"type": "array",
+"description": "Event types expected to flow through this cross-layer link.",
+"items": {
+"type": "string",
+"pattern": "^[a-z][a-z0-9.*-]*$"
+},
+"default": []
+},
+"required": {
+"type": "boolean",
+"description": "Whether this cross-layer link is required for the integrated event profile.",
+"default": false
+}
+}
+},
+"integration_policy": {
+"type": "object",
+"description": "Policy for validating and integrating the eight modular layers.",
+"additionalProperties": false,
+"required": [
+"layer_validation_required",
+"cross_layer_consistency_required",
+"missing_layer_policy",
+"version_alignment_policy",
+"failure_policy"
+],
+"properties": {
+"layer_validation_required": {
+"type": "boolean",
+"description": "Whether each layer must validate against its referenced schema."
+},
+"cross_layer_consistency_required": {
+"type": "boolean",
+"description": "Whether cross-layer relationships must be checked for consistency."
+},
+"missing_layer_policy": {
+"type": "string",
+"description": "Policy applied when one or more required layers are missing.",
+"enum": [
+"reject_event",
+"warn_only",
+"allow_partial",
+"manual_review"
+]
+},
+"version_alignment_policy": {
+"type": "string",
+"description": "Policy for aligning layer schema versions."
+},
+"failure_policy": {
+"type": "string",
+"description": "Policy applied when integrated validation fails."
+},
+"future_lifecycle_ref": {
+"type": "string",
+"description": "Optional reference to a future lifecycle schema."
+}
+}
+},
+"trace_requirements": {
+"type": "object",
+"description": "Top-level trace requirements for the integrated Earth Brain event.",
+"additionalProperties": false,
+"required": [
+"trace_required",
+"layer_trace_required",
+"cross_layer_trace_required",
+"provenance_required"
+],
+"properties": {
+"trace_required": {
+"type": "boolean",
+"description": "Whether the integrated event requires trace records."
+},
+"layer_trace_required": {
+"type": "boolean",
+"description": "Whether each modular layer must preserve layer-level traces."
+},
+"cross_layer_trace_required": {
+"type": "boolean",
+"description": "Whether cross-layer event flow must preserve trace continuity."
+},
+"provenance_required": {
+"type": "boolean",
+"description": "Whether provenance metadata is required."
+},
+"minimum_provenance_fields": {
+"type": "array",
+"description": "Minimum provenance fields required for integrated traceability.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"retention_policy": {
+"type": "string",
+"description": "Trace retention policy for the integrated event."
+}
+}
+},
+"governance_hooks": {
+"type": "object",
+"description": "Top-level governance hooks for the integrated Earth Brain event.",
+"additionalProperties": false,
+"required": [
+"human_review_boundary",
+"governance_layer_required",
+"escalation_channels"
+],
+"properties": {
+"human_review_boundary": {
+"type": "string",
+"description": "Boundary condition that triggers human review."
+},
+"governance_layer_required": {
+"type": "boolean",
+"description": "Whether Human Governance Layer participation is required."
+},
+"policy_refs": {
+"type": "array",
+"description": "Policy documents or schemas applied to this integrated event.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"constitutional_refs": {
+"type": "array",
+"description": "Constitutional, principle, or governance reference documents.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"escalation_channels": {
+"type": "array",
+"description": "Channels or layers used for escalation.",
+"items": {
+"type": "string"
+},
+"default": []
+},
+"failure_modes": {
+"type": "array",
+"description": "Known top-level failure modes.",
+"items": {
+"type": "string"
+},
+"default": []
+}
+}
+}
+}
+}
+
