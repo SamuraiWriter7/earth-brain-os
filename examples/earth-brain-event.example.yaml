@@ -1,838 +1,1349 @@
-{
-"$schema": "https://json-schema.org/draft/2020-12/schema",
-"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/layers/human-governance-layer.schema.json",
-"title": "Human Governance Layer",
-"description": "Schema for the Human Governance Layer in Earth Brain OS v0.2 Modular Event Architecture. This layer defines human oversight, governance authority, review processes, accountability, consent, appeal, public-interest safeguards, escalation handling, trace requirements, and governance hooks.",
-"type": "object",
-"additionalProperties": false,
-"required": [
-"layer_id",
-"layer_name",
-"layer_type",
-"layer_version",
-"status",
-"governance_scope",
-"governance_bodies",
-"decision_records",
-"review_model",
-"accountability_model",
-"consent_model",
-"appeal_model",
-"input_events",
-"output_events",
-"trace_requirements",
-"governance_hooks"
-],
-"properties": {
-"layer_id": {
-"type": "string",
-"description": "Stable identifier for this layer instance.",
-"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$",
-"examples": [
-"layer:human-governance"
-]
-},
-"layer_name": {
-"type": "string",
-"const": "Human Governance Layer",
-"description": "Human-readable name of the layer."
-},
-"layer_type": {
-"type": "string",
-"const": "human_governance_layer",
-"description": "Machine-readable layer type."
-},
-"layer_version": {
-"type": "string",
-"description": "Version of this layer schema or implementation profile.",
-"pattern": "^v?\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.-]+)?$",
-"examples": [
-"v0.2.0-candidate"
-]
-},
-"status": {
-"type": "string",
-"description": "Operational status of the layer.",
-"enum": [
-"draft",
-"experimental",
-"active",
-"deprecated",
-"retired"
-]
-},
-"description": {
-"type": "string",
-"description": "Short explanation of this Human Governance Layer configuration."
-},
-"governance_scope": {
-"$ref": "#/$defs/governance_scope"
-},
-"governance_bodies": {
-"type": "array",
-"description": "Human governance bodies, reviewers, operators, councils, boards, or public-interest authorities connected to this layer.",
-"minItems": 1,
-"items": {
-"$ref": "#/$defs/governance_body"
-}
-},
-"decision_records": {
-"type": "array",
-"description": "Governance decisions, approvals, vetoes, appeals, or review outcomes managed by this layer.",
-"minItems": 1,
-"items": {
-"$ref": "#/$defs/decision_record"
-}
-},
-"review_model": {
-"$ref": "#/$defs/review_model"
-},
-"accountability_model": {
-"$ref": "#/$defs/accountability_model"
-},
-"consent_model": {
-"$ref": "#/$defs/consent_model"
-},
-"appeal_model": {
-"$ref": "#/$defs/appeal_model"
-},
-"public_interest_controls": {
-"$ref": "#/$defs/public_interest_controls"
-},
-"input_events": {
-"type": "array",
-"description": "Events or signals accepted by this layer.",
-"items": {
-"$ref": "#/$defs/event_port"
-},
-"default": []
-},
-"output_events": {
-"type": "array",
-"description": "Events or signals emitted by this layer.",
-"items": {
-"$ref": "#/$defs/event_port"
-},
-"default": []
-},
-"linked_layers": {
-"type": "array",
-"description": "Other Earth Brain OS layers directly connected to this layer.",
-"items": {
-"$ref": "#/$defs/layer_reference"
-},
-"default": []
-},
-"trace_requirements": {
-"$ref": "#/$defs/trace_requirements"
-},
-"governance_hooks": {
-"$ref": "#/$defs/governance_hooks"
-},
-"extension_fields": {
-"type": "object",
-"description": "Reserved space for implementation-specific extensions.",
-"additionalProperties": true,
-"default": {}
-}
-},
-"$defs": {
-"governance_scope": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"governance_domains",
-"governance_mode",
-"authority_level",
-"accountability_priority",
-"human_review_required"
-],
-"properties": {
-"governance_domains": {
-"type": "array",
-"description": "Domains where human governance is applied.",
-"minItems": 1,
-"items": {
-"type": "string",
-"enum": [
-"agent_oversight",
-"tool_use_approval",
-"knowledge_integrity",
-"trace_dispute",
-"attribution_dispute",
-"royalty_dispute",
-"kazene_regulation_review",
-"defense_escalation",
-"lifecycle_decision",
-"policy_authoring",
-"public_interest_review",
-"human_rights_safeguard",
-"system_shutdown",
-"other"
-]
-}
-},
-"governance_mode": {
-"type": "string",
-"description": "Primary mode of human governance used by this layer.",
-"enum": [
-"human_in_the_loop",
-"human_on_the_loop",
-"deliberative_review",
-"representative_governance",
-"public_interest_board",
-"defense_court",
-"community_review",
-"hybrid",
-"other"
-]
-},
-"authority_level": {
-"type": "string",
-"description": "Maximum authority level granted to this governance layer.",
-"enum": [
-"advisory",
-"binding_review",
-"approval_required",
-"veto_authority",
-"emergency_authority",
-"constitutional_authority"
-]
-},
-"accountability_priority": {
-"type": "string",
-"description": "Primary accountability priority for governance decisions.",
-"enum": [
-"individual_rights",
-"human_safety",
-"public_interest",
-"system_integrity",
-"trace_integrity",
-"fair_value_circulation",
-"civilizational_resilience",
-"other"
-]
-},
-"human_review_required": {
-"type": "boolean",
-"description": "Whether human review is required for governance-relevant events."
-},
-"boundary_conditions": {
-"type": "array",
-"description": "Boundary conditions limiting human governance authority, intervention, disclosure, or delegation.",
-"items": {
-"type": "string"
-},
-"default": []
-}
-}
-},
-"governance_body": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"body_id",
-"body_type",
-"body_name",
-"authority_scope",
-"decision_rights",
-"accountability_status"
-],
-"properties": {
-"body_id": {
-"type": "string",
-"description": "Stable identifier for the governance body.",
-"pattern": "^governance-body:[a-z0-9][a-z0-9.*:-]*$",
-"examples": [
-"governance-body:human-review-board"
-]
-},
-"body_type": {
-"type": "string",
-"description": "Type of human governance body.",
-"enum": [
-"human_operator",
-"review_board",
-"ethics_board",
-"defense_court",
-"public_interest_council",
-"technical_maintainer",
-"community_representative",
-"rights_reviewer",
-"emergency_authority",
-"other"
-]
-},
-"body_name": {
-"type": "string",
-"description": "Human-readable name of the governance body."
-},
-"authority_scope": {
-"type": "array",
-"description": "Areas where this body has authority.",
-"minItems": 1,
-"items": {
-"type": "string",
-"enum": [
-"observe",
-"review",
-"approve",
-"reject",
-"veto",
-"pause",
-"rollback",
-"escalate",
-"amend_policy",
-"trigger_emergency_stop",
-"other"
-]
-}
-},
-"decision_rights": {
-"type": "string",
-"description": "Decision authority granted to this governance body.",
-"enum": [
-"observe_only",
-"recommend",
-"approve_or_reject",
-"binding_decision",
-"veto",
-"emergency_override"
-]
-},
-"accountability_status": {
-"type": "string",
-"description": "Accountability status of this governance body.",
-"enum": [
-"identified",
-"delegated",
-"representative",
-"audited",
-"publicly_accountable",
-"unknown"
-]
-},
-"contact_or_registry_ref": {
-"type": "string",
-"description": "Optional reference to a contact point, registry, policy document, or governance record."
-},
-"conflict_of_interest_policy": {
-"type": "string",
-"description": "Policy for handling conflicts of interest."
-}
-}
-},
-"decision_record": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"decision_id",
-"decision_type",
-"decision_status",
-"subject_ref",
-"authority_ref",
-"rationale"
-],
-"properties": {
-"decision_id": {
-"type": "string",
-"description": "Stable identifier for the governance decision.",
-"pattern": "^governance-decision:[a-z0-9][a-z0-9._:-]*$",
-"examples": [
-"governance-decision:approve-agent-action-001"
-]
-},
-"decision_type": {
-"type": "string",
-"description": "Type of governance decision.",
-"enum": [
-"approval",
-"rejection",
-"veto",
-"pause",
-"rollback",
-"policy_update",
-"appeal_result",
-"dispute_resolution",
-"emergency_action",
-"public_interest_review",
-"other"
-]
-},
-"decision_status": {
-"type": "string",
-"description": "Current status of this decision.",
-"enum": [
-"draft",
-"pending_review",
-"approved",
-"rejected",
-"vetoed",
-"appealed",
-"superseded",
-"retired"
-]
-},
-"subject_ref": {
-"type": "string",
-"description": "Reference to the event, agent action, trace record, attribution claim, royalty route, defense signal, or policy under review."
-},
-"authority_ref": {
-"type": "string",
-"description": "Governance body responsible for the decision.",
-"pattern": "^governance-body:[a-z0-9][a-z0-9.*:-]*$"
-},
-"rationale": {
-"type": "string",
-"description": "Human-readable rationale for the decision."
-},
-"linked_trace_ids": {
-"type": "array",
-"description": "Trace identifiers linked to this governance decision.",
-"items": {
-"type": "string"
-},
-"default": []
-},
-"effective_time": {
-"type": "string",
-"description": "Optional time when the decision becomes effective.",
-"format": "date-time"
-}
-}
-},
-"review_model": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"review_method",
-"review_trigger_policy",
-"review_timing",
-"review_outcome_policy"
-],
-"properties": {
-"review_method": {
-"type": "string",
-"description": "Primary review method used by this layer.",
-"enum": [
-"single_reviewer",
-"multi_reviewer",
-"board_review",
-"defense_court_review",
-"public_interest_review",
-"community_review",
-"expert_review",
-"hybrid",
-"other"
-]
-},
-"review_trigger_policy": {
-"type": "string",
-"description": "Policy defining when human review is triggered."
-},
-"review_timing": {
-"type": "string",
-"description": "When review occurs relative to system action.",
-"enum": [
-"before_action",
-"after_action",
-"continuous",
-"periodic",
-"on_dispute",
-"on_escalation",
-"manual"
-]
-},
-"review_outcome_policy": {
-"type": "string",
-"description": "How review outcomes are applied to events, agents, policies, or routes."
-},
-"minimum_reviewers": {
-"type": "integer",
-"description": "Minimum number of reviewers required.",
-"minimum": 0
-},
-"review_time_limit": {
-"type": "string",
-"description": "Optional human-readable time limit for review."
-}
-}
-},
-"accountability_model": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"responsibility_assignment",
-"auditability_required",
-"explanation_required",
-"liability_boundary_policy"
-],
-"properties": {
-"responsibility_assignment": {
-"type": "string",
-"description": "How responsibility is assigned among humans, agents, institutions, and governance bodies."
-},
-"auditability_required": {
-"type": "boolean",
-"description": "Whether governance decisions must be auditable."
-},
-"explanation_required": {
-"type": "boolean",
-"description": "Whether decisions must include human-readable explanations."
-},
-"liability_boundary_policy": {
-"type": "string",
-"description": "Policy for defining accountability and liability boundaries."
-},
-"accountability_records": {
-"type": "array",
-"description": "Optional accountability records or references.",
-"items": {
-"$ref": "#/$defs/accountability_record"
-},
-"default": []
-}
-}
-},
-"accountability_record": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"record_id",
-"responsible_party_ref",
-"responsibility_type",
-"scope"
-],
-"properties": {
-"record_id": {
-"type": "string",
-"description": "Stable identifier for the accountability record.",
-"pattern": "^accountability-record:[a-z0-9][a-z0-9.*:-]*$"
-},
-"responsible_party_ref": {
-"type": "string",
-"description": "Reference to the responsible human, body, institution, or role."
-},
-"responsibility_type": {
-"type": "string",
-"description": "Type of responsibility assigned.",
-"enum": [
-"operator_responsibility",
-"review_responsibility",
-"policy_responsibility",
-"technical_responsibility",
-"public_interest_responsibility",
-"appeal_responsibility",
-"emergency_responsibility",
-"other"
-]
-},
-"scope": {
-"type": "string",
-"description": "Scope of the responsibility."
-},
-"review_cycle": {
-"type": "string",
-"description": "Optional review cycle for this accountability record."
-}
-}
-},
-"consent_model": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"consent_required",
-"consent_scope_policy",
-"withdrawal_policy",
-"consent_record_policy"
-],
-"properties": {
-"consent_required": {
-"type": "boolean",
-"description": "Whether consent is required for relevant human data, contribution, attribution, or participation."
-},
-"consent_scope_policy": {
-"type": "string",
-"description": "Policy defining the scope of consent."
-},
-"withdrawal_policy": {
-"type": "string",
-"description": "Policy for withdrawing consent."
-},
-"consent_record_policy": {
-"type": "string",
-"description": "Policy for recording, updating, and auditing consent."
-},
-"consent_status_values": {
-"type": "array",
-"description": "Allowed consent status values used by this layer.",
-"items": {
-"type": "string",
-"enum": [
-"unknown",
-"not_required",
-"requested",
-"granted",
-"limited",
-"withdrawn",
-"expired",
-"disputed"
-]
-},
-"default": [
-"unknown",
-"not_required",
-"requested",
-"granted",
-"limited",
-"withdrawn",
-"expired",
-"disputed"
-]
-}
-}
-},
-"appeal_model": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"appeal_allowed",
-"appeal_trigger_policy",
-"appeal_review_body",
-"appeal_resolution_policy"
-],
-"properties": {
-"appeal_allowed": {
-"type": "boolean",
-"description": "Whether affected parties may appeal governance decisions."
-},
-"appeal_trigger_policy": {
-"type": "string",
-"description": "Policy defining when an appeal may be filed."
-},
-"appeal_review_body": {
-"type": "string",
-"description": "Governance body responsible for appeals.",
-"pattern": "^governance-body:[a-z0-9][a-z0-9._:-]*$"
-},
-"appeal_resolution_policy": {
-"type": "string",
-"description": "Policy for resolving appeals."
-},
-"appeal_time_limit": {
-"type": "string",
-"description": "Optional human-readable time limit for appeals."
-}
-}
-},
-"public_interest_controls": {
-"type": "object",
-"additionalProperties": false,
-"properties": {
-"public_interest_review_required": {
-"type": "boolean",
-"description": "Whether public-interest review is required for high-impact decisions."
-},
-"rights_impact_assessment_required": {
-"type": "boolean",
-"description": "Whether rights impact assessment is required."
-},
-"transparency_report_required": {
-"type": "boolean",
-"description": "Whether transparency reporting is required."
-},
-"anti_capture_policy": {
-"type": "string",
-"description": "Policy for preventing capture of governance by concentrated private, institutional, or agentic interests."
-},
-"minority_or_edge_case_protection": {
-"type": "string",
-"description": "Policy for protecting minority positions, edge cases, and vulnerable affected parties."
-},
-"public_record_policy": {
-"type": "string",
-"description": "Policy for what governance records may be made public, redacted, or restricted."
-}
-},
-"default": {}
-},
-"event_port": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"event_type",
-"direction",
-"description"
-],
-"properties": {
-"event_type": {
-"type": "string",
-"description": "Machine-readable event or signal type.",
-"pattern": "^[a-z][a-z0-9.*-]*$",
-"examples": [
-"human.governance.review.requested"
-]
-},
-"direction": {
-"type": "string",
-"description": "Direction of the event relative to this layer.",
-"enum": [
-"input",
-"output"
-]
-},
-"description": {
-"type": "string",
-"description": "Short description of the event."
-},
-"source_layer": {
-"type": "string",
-"description": "Optional source layer identifier.",
-"pattern": "^layer:[a-z0-9][a-z0-9.*:-]*$"
-},
-"target_layer": {
-"type": "string",
-"description": "Optional target layer identifier.",
-"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
-},
-"schema_ref": {
-"type": "string",
-"description": "Optional schema reference for this event."
-}
-}
-},
-"layer_reference": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"layer_id",
-"relationship"
-],
-"properties": {
-"layer_id": {
-"type": "string",
-"description": "Referenced Earth Brain OS layer identifier.",
-"pattern": "^layer:[a-z0-9][a-z0-9._:-]*$"
-},
-"relationship": {
-"type": "string",
-"description": "Relationship between this layer and the referenced layer.",
-"enum": [
-"receives_from",
-"sends_to",
-"reviews",
-"approves",
-"vetoes",
-"audits",
-"governs",
-"oversees",
-"escalates_to",
-"other"
-]
-},
-"description": {
-"type": "string"
-}
-}
-},
-"trace_requirements": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"trace_required",
-"decision_logging_required",
-"review_logging_required",
-"accountability_logging_required",
-"appeal_logging_required"
-],
-"properties": {
-"trace_required": {
-"type": "boolean",
-"description": "Whether human governance activity must produce trace records."
-},
-"decision_logging_required": {
-"type": "boolean",
-"description": "Whether governance decisions must be logged."
-},
-"review_logging_required": {
-"type": "boolean",
-"description": "Whether review processes must be logged."
-},
-"accountability_logging_required": {
-"type": "boolean",
-"description": "Whether accountability assignments must be logged."
-},
-"appeal_logging_required": {
-"type": "boolean",
-"description": "Whether appeals and appeal outcomes must be logged."
-},
-"provenance_fields": {
-"type": "array",
-"description": "Required provenance fields for human governance records.",
-"items": {
-"type": "string"
-},
-"default": []
-},
-"retention_policy": {
-"type": "string",
-"description": "Trace retention policy for this layer."
-}
-}
-},
-"governance_hooks": {
-"type": "object",
-"additionalProperties": false,
-"required": [
-"human_review_boundary",
-"escalation_channels"
-],
-"properties": {
-"human_review_boundary": {
-"type": "string",
-"description": "Boundary condition that triggers human review."
-},
-"policy_refs": {
-"type": "array",
-"description": "Policy documents, rules, or schemas applied to this layer.",
-"items": {
-"type": "string"
-},
-"default": []
-},
-"constitutional_refs": {
-"type": "array",
-"description": "Constitutional, charter, principle, or foundational governance references.",
-"items": {
-"type": "string"
-},
-"default": []
-},
-"rights_policy_refs": {
-"type": "array",
-"description": "Human rights, safety, public-interest, consent, or accountability policy references.",
-"items": {
-"type": "string"
-},
-"default": []
-},
-"escalation_channels": {
-"type": "array",
-"description": "Channels or layers used for escalation.",
-"items": {
-"type": "string"
-},
-"default": []
-},
-"failure_modes": {
-"type": "array",
-"description": "Known failure modes to monitor.",
-"items": {
-"type": "string"
-},
-"default": []
-}
-}
-}
-}
-}
+event_id: "earth-brain-event:v0.2-example-001"
+event_type: "earth_brain_event"
+event_version: "v0.2.0-candidate"
+created_at: "2026-06-13T00:00:00Z"
+updated_at: "2026-06-13T00:00:00Z"
+status: "experimental"
+description: "Example Earth Brain OS event using the v0.2 Modular Event Architecture with eight referenced layers."
+
+architecture:
+architecture_name: "Earth Brain OS Modular Event Architecture"
+architecture_version: "v0.2.0-candidate"
+schema_profile: "modular_event_architecture"
+integration_mode: "ref_based"
+layer_count: 8
+design_principles:
+- "modularity"
+- "traceability"
+- "human_governance"
+- "value_circulation"
+- "defense_resilience"
+- "kazene_regulation"
+- "knowledge_integrity"
+- "agent_coordination"
+- "optical_connectivity"
+
+event_context:
+context_id: "context:earth-brain-v0.2-reference"
+context_type: "reference_model"
+summary: "Reference example for Earth Brain OS v0.2 modular layer integration."
+related_documents:
+- "README.md"
+- "CHANGELOG.md"
+tags:
+- "earth-brain-os"
+- "modular-event-architecture"
+- "v0.2"
+
+layer_order:
+
+* "ai_agent_layer"
+* "optical_nervous_layer"
+* "knowledge_cortex_layer"
+* "trace_attribution_layer"
+* "royalty_circulation_layer"
+* "kazene_regulation_layer"
+* "defense_immune_layer"
+* "human_governance_layer"
+
+layers:
+ai_agent_layer:
+layer_id: "layer:ai-agent"
+layer_name: "AI Agent Layer"
+layer_type: "ai_agent_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "AI agents that observe, plan, route, and execute bounded tasks under trace and governance controls."
+
+```
+agent_scope:
+  operating_domains:
+    - "reasoning"
+    - "planning"
+    - "routing"
+    - "tool_use"
+    - "governance_assistance"
+  autonomy_level: "bounded_autonomous"
+  execution_boundary: "Agents may recommend and execute bounded operations, but sensitive actions require human review."
+  human_supervision: "required_for_sensitive_actions"
+  allowed_actions:
+    - "classify_event"
+    - "route_signal"
+    - "request_trace"
+    - "prepare_governance_review"
+  prohibited_actions:
+    - "unreviewed_sensitive_action"
+    - "unattributed_external_use"
+
+agent_roles:
+  - role_id: "agent-role:planner"
+    role_name: "Planning Agent"
+    agent_type: "planner"
+    responsibility: "Breaks high-level Earth Brain events into modular layer tasks."
+    decision_rights: "recommend"
+    model_refs:
+      - "model:general-reasoning"
+    tool_refs:
+      - "tool:schema-validator"
+  - role_id: "agent-role:router"
+    role_name: "Routing Agent"
+    agent_type: "router"
+    responsibility: "Routes events between layers according to cross-layer links."
+    decision_rights: "execute"
+    model_refs:
+      - "model:event-router"
+    tool_refs:
+      - "tool:event-bus"
+
+capabilities:
+  - capability_id: "capability:event-routing"
+    capability_name: "Event Routing"
+    capability_type: "planning"
+    constraints:
+      - "Must preserve event provenance."
+      - "Must respect governance escalation boundaries."
+
+coordination_model:
+  topology: "multi_agent"
+  orchestration_method: "Planner coordinates router and evaluator agents through event-level task records."
+  conflict_resolution: "Conflicts are escalated to Human Governance Layer when agent consensus is insufficient."
+  escalation_policy: "Escalate to Defense Immune Layer for safety anomalies and Human Governance Layer for rights or accountability issues."
+
+input_events:
+  - event_type: "agent.task.requested"
+    direction: "input"
+    description: "A task request enters the AI Agent Layer."
+    source_layer: "layer:human-governance"
+    target_layer: "layer:ai-agent"
+
+output_events:
+  - event_type: "agent.plan.created"
+    direction: "output"
+    description: "A bounded plan is created for downstream layer processing."
+    source_layer: "layer:ai-agent"
+    target_layer: "layer:knowledge-cortex"
+
+linked_layers:
+  - layer_id: "layer:knowledge-cortex"
+    relationship: "sends_to"
+    description: "Agents query the Knowledge Cortex Layer for context."
+  - layer_id: "layer:human-governance"
+    relationship: "governed_by"
+    description: "Sensitive agent actions are reviewed by human governance."
+
+trace_requirements:
+  trace_required: true
+  attribution_required: true
+  action_logging_required: true
+  provenance_fields:
+    - "agent_role"
+    - "input_event"
+    - "output_event"
+    - "decision_rights"
+  retention_policy: "Retain agent traces for governance and audit review."
+
+governance_hooks:
+  human_review_boundary: "Required when an agent action affects attribution, royalty routing, defense response, or public-interest decisions."
+  policy_refs:
+    - "docs/human-governance-policy.md"
+  guardrail_refs:
+    - "docs/agent-boundary-policy.md"
+  escalation_channels:
+    - "layer:human-governance"
+    - "layer:defense-immune"
+  failure_modes:
+    - "agent_overreach"
+    - "untraced_action"
+    - "governance_bypass"
+```
+
+optical_nervous_layer:
+layer_id: "layer:optical-nervous"
+layer_name: "Optical Nervous Layer"
+layer_type: "optical_nervous_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "High-speed signal transmission layer connecting agents, knowledge, trace, royalty, defense, and governance modules."
+
+```
+network_scope:
+  transport_medium: "hybrid_network"
+  operating_domains:
+    - "data_transport"
+    - "agent_coordination"
+    - "memory_sync"
+    - "trace_transmission"
+    - "governance_signal"
+  coverage_scope: "virtual"
+  latency_class: "low_latency"
+  human_criticality: "governance_relevant"
+  boundary_conditions:
+    - "Sensitive governance and defense signals require traceable routing."
+
+optical_nodes:
+  - node_id: "optical-node:event-relay-01"
+    node_type: "relay_node"
+    role: "Routes modular events between Earth Brain OS layers."
+    location_scope: "virtual"
+    capacity_profile:
+      bandwidth_class: "high"
+      latency_target: "low-latency event exchange"
+      availability_target: "best-effort reference implementation"
+    trusted_boundary: "semi_trusted"
+  - node_id: "optical-node:trace-gateway-01"
+    node_type: "trace_gateway"
+    role: "Transmits trace and attribution signals to the Trace Attribution Layer."
+    location_scope: "virtual"
+    capacity_profile:
+      bandwidth_class: "medium"
+      latency_target: "event-driven trace transmission"
+      availability_target: "audit-ready"
+    trusted_boundary: "trusted"
+
+signal_flows:
+  - flow_id: "signal-flow:agent-to-cortex"
+    flow_type: "knowledge_query"
+    source_node: "optical-node:event-relay-01"
+    target_node: "optical-node:trace-gateway-01"
+    payload_class: "trace_required"
+    priority: "high"
+    expected_direction: "bidirectional"
+    schema_ref: "schemas/earth-brain-event.schema.json"
+
+routing_model:
+  topology: "hybrid"
+  routing_strategy: "Route by layer type, event priority, trace requirement, and governance sensitivity."
+  congestion_policy: "Throttle non-critical events and preserve critical governance or defense signals."
+  failure_reroute_policy: "Reroute degraded flows to Human Governance Layer or Defense Immune Layer for review."
+  routing_constraints:
+    - "Do not drop trace-required events."
+
+latency_profile:
+  target_latency: "low latency for operational signals"
+  maximum_latency: "best effort in reference model"
+  jitter_tolerance: "medium"
+  degradation_behavior: "Apply Kazene Regulation Layer throttling when signal pressure rises."
+
+resilience_controls:
+  redundancy_model: "backup_path"
+  failure_detection: "Event heartbeat and trace continuity checks."
+  fallback_mode: "Switch to manual review flow."
+  isolation_policy: "Isolate unstable routing nodes and escalate to Defense Immune Layer."
+  monitoring_signals:
+    - "signal_delay"
+    - "route_failure"
+    - "trace_gap"
+
+input_events:
+  - event_type: "optical.signal.requested"
+    direction: "input"
+    description: "A layer requests signal transmission."
+    source_layer: "layer:ai-agent"
+    target_layer: "layer:optical-nervous"
+
+output_events:
+  - event_type: "optical.signal.transmitted"
+    direction: "output"
+    description: "A signal is transmitted to the target layer."
+    source_layer: "layer:optical-nervous"
+    target_layer: "layer:knowledge-cortex"
+
+linked_layers:
+  - layer_id: "layer:ai-agent"
+    relationship: "receives_from"
+    description: "Receives agent events for routing."
+  - layer_id: "layer:trace-attribution"
+    relationship: "synchronizes_with"
+    description: "Synchronizes trace-required signal metadata."
+
+trace_requirements:
+  trace_required: true
+  signal_logging_required: true
+  routing_audit_required: true
+  provenance_fields:
+    - "source_layer"
+    - "target_layer"
+    - "event_type"
+    - "route_id"
+  retention_policy: "Retain routing traces for audit and failure analysis."
+
+governance_hooks:
+  human_review_boundary: "Required when routing failures affect governance, attribution, or defense-critical flows."
+  policy_refs:
+    - "docs/routing-policy.md"
+  security_refs:
+    - "docs/defense-routing-controls.md"
+  escalation_channels:
+    - "layer:defense-immune"
+    - "layer:human-governance"
+  failure_modes:
+    - "lost_signal"
+    - "untraced_route"
+    - "routing_loop"
+```
+
+knowledge_cortex_layer:
+layer_id: "layer:knowledge-cortex"
+layer_name: "Knowledge Cortex Layer"
+layer_type: "knowledge_cortex_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "Knowledge, memory, semantic context, retrieval, and validation layer for Earth Brain OS."
+
+```
+knowledge_scope:
+  knowledge_domains:
+    - "scientific"
+    - "technical"
+    - "governance"
+    - "trace_records"
+    - "agent_memory"
+    - "human_feedback"
+  knowledge_mode: "hybrid_cortex"
+  authority_level: "governance_relevant"
+  update_policy: "Knowledge updates require source metadata, trace links, and validation status."
+  human_interpretability: "required"
+  boundary_conditions:
+    - "Unverified sources must not be treated as authoritative."
+
+knowledge_sources:
+  - source_id: "knowledge-source:earth-brain-reference-docs"
+    source_type: "document"
+    source_name: "Earth Brain OS Reference Documents"
+    source_ref: "docs/"
+    trust_level: "medium"
+    license_status: "internal"
+    update_frequency: "manual"
+    attribution_required: true
+  - source_id: "knowledge-source:trace-memory"
+    source_type: "trace_log"
+    source_name: "Trace Memory Records"
+    source_ref: "schemas/layers/trace-attribution-layer.schema.json"
+    trust_level: "high"
+    license_status: "internal"
+    update_frequency: "event_driven"
+    attribution_required: true
+
+cortex_nodes:
+  - node_id: "cortex-node:governance-memory"
+    node_type: "memory_store"
+    role: "Stores governance-relevant context and review history."
+    knowledge_domain: "governance"
+    access_level: "human_review_required"
+    linked_source_ids:
+      - "knowledge-source:earth-brain-reference-docs"
+  - node_id: "cortex-node:trace-context"
+    node_type: "trace_memory_node"
+    role: "Links knowledge retrieval to trace and attribution context."
+    knowledge_domain: "trace_records"
+    access_level: "restricted"
+    linked_source_ids:
+      - "knowledge-source:trace-memory"
+
+semantic_maps:
+  - map_id: "semantic-map:earth-brain-layer-map"
+    map_type: "concept_map"
+    description: "Maps relationships among the eight Earth Brain OS layers."
+    schema_ref: "schemas/earth-brain-event.schema.json"
+    linked_nodes:
+      - "cortex-node:governance-memory"
+      - "cortex-node:trace-context"
+
+retrieval_model:
+  retrieval_method: "hybrid"
+  ranking_policy: "Prioritize validated, attributed, and governance-relevant knowledge."
+  context_window_policy: "Compress context while preserving source and trace references."
+  uncertainty_handling: "Mark uncertain claims and route high-impact ambiguity to human review."
+  fallback_strategy: "Use manual review if retrieval confidence is insufficient."
+
+validation_model:
+  validation_method: "hybrid"
+  consistency_check_required: true
+  source_verification_required: true
+  conflict_resolution: "Prefer authoritative sources; escalate unresolved conflicts to Human Governance Layer."
+  confidence_threshold: 0.7
+
+memory_policy:
+  memory_type: "hybrid"
+  write_policy: "Write only validated or explicitly marked experimental knowledge."
+  deletion_policy: "Retire outdated knowledge through versioned records."
+  correction_policy: "Corrections must preserve previous trace context."
+  retention_policy: "Retain governance-relevant memory as long as needed for audit."
+
+input_events:
+  - event_type: "knowledge.query.requested"
+    direction: "input"
+    description: "A knowledge query is requested by the AI Agent Layer."
+    source_layer: "layer:ai-agent"
+    target_layer: "layer:knowledge-cortex"
+
+output_events:
+  - event_type: "knowledge.context.returned"
+    direction: "output"
+    description: "Validated context is returned with source and trace metadata."
+    source_layer: "layer:knowledge-cortex"
+    target_layer: "layer:trace-attribution"
+
+linked_layers:
+  - layer_id: "layer:ai-agent"
+    relationship: "receives_from"
+    description: "Receives queries from AI agents."
+  - layer_id: "layer:trace-attribution"
+    relationship: "sends_to"
+    description: "Sends source and provenance metadata for attribution."
+
+trace_requirements:
+  trace_required: true
+  source_attribution_required: true
+  retrieval_logging_required: true
+  knowledge_update_logging_required: true
+  provenance_fields:
+    - "knowledge_source"
+    - "cortex_node"
+    - "retrieval_method"
+    - "confidence_score"
+  retention_policy: "Retain retrieval and validation traces for audit."
+
+governance_hooks:
+  human_review_boundary: "Required when knowledge is disputed, sensitive, high-impact, or used for governance decisions."
+  policy_refs:
+    - "docs/knowledge-governance-policy.md"
+  license_policy_refs:
+    - "docs/source-attribution-policy.md"
+  escalation_channels:
+    - "layer:trace-attribution"
+    - "layer:human-governance"
+  failure_modes:
+    - "source_conflict"
+    - "unverified_claim"
+    - "context_loss"
+```
+
+trace_attribution_layer:
+layer_id: "layer:trace-attribution"
+layer_name: "Trace Attribution Layer"
+layer_type: "trace_attribution_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "Trace, provenance, origin attribution, permission status, and audit layer."
+
+```
+attribution_scope:
+  trace_domains:
+    - "knowledge_use"
+    - "agent_action"
+    - "model_output"
+    - "human_input"
+    - "royalty_event"
+    - "governance_decision"
+  attribution_mode: "hybrid"
+  provenance_granularity: "event_level"
+  permission_sensitivity: "high"
+  human_review_required: true
+  boundary_conditions:
+    - "Disputed origins must not be routed to royalty settlement without review."
+
+trace_sources:
+  - source_id: "trace-source:knowledge-cortex-log"
+    source_type: "knowledge_source"
+    source_name: "Knowledge Cortex Retrieval Log"
+    source_ref: "layer:knowledge-cortex"
+    capture_method: "event_hook"
+    trust_level: "high"
+    retention_policy: "Retain for attribution and governance audit."
+    integrity_check_required: true
+  - source_id: "trace-source:agent-action-log"
+    source_type: "agent_log"
+    source_name: "AI Agent Action Log"
+    source_ref: "layer:ai-agent"
+    capture_method: "automatic"
+    trust_level: "medium"
+    retention_policy: "Retain while related governance decisions remain active."
+    integrity_check_required: true
+
+attribution_records:
+  - record_id: "attribution-record:origin-001"
+    record_type: "source_attribution"
+    origin_type: "document"
+    origin_ref: "docs/earth-brain-os-reference.md"
+    attribution_status: "verified"
+    usage_context: "Used as reference context for modular event design."
+    confidence_score: 0.9
+    linked_trace_ids:
+      - "trace:knowledge-query-001"
+    royalty_route_ref: "royalty-route:origin-to-public-pool"
+
+trace_model:
+  trace_capture_policy: "Capture trace records for all cross-layer events."
+  trace_integrity_policy: "Use append-only trace chains for governance-relevant events."
+  trace_linking_method: "event_id"
+  retention_policy: "Retain integrated traces for audit, attribution, and dispute resolution."
+  immutability_level: "versioned"
+  privacy_filtering: "Redact sensitive human data before public reporting."
+
+attribution_model:
+  matching_method: "trace_chain"
+  conflict_resolution: "Escalate disputed attribution to Human Governance Layer."
+  claim_review_policy: "Claims require trace evidence and human review for high-impact disputes."
+  attribution_output_policy: "Attach attribution references to downstream royalty and governance events."
+  minimum_confidence_threshold: 0.7
+
+permission_model:
+  permission_tracking_required: true
+  permission_status_policy: "Track permission status for attributed sources and update on dispute or expiration."
+  restricted_use_handling: "Block or route restricted use to governance review."
+  violation_response: "Quarantine violating event and notify Defense Immune Layer."
+  permission_status_values:
+    - "unknown"
+    - "permitted"
+    - "restricted"
+    - "licensed"
+    - "permission_required"
+    - "prohibited"
+    - "expired"
+    - "disputed"
+
+audit_controls:
+  audit_required: true
+  audit_frequency: "event_driven"
+  audit_method: "Trace chain review with human governance escalation."
+  audit_report_ref: "docs/trace-audit-report.md"
+  failure_modes:
+    - "missing_origin"
+    - "permission_mismatch"
+    - "trace_tampering"
+
+input_events:
+  - event_type: "trace.record.requested"
+    direction: "input"
+    description: "A layer requests trace recording."
+    source_layer: "layer:knowledge-cortex"
+    target_layer: "layer:trace-attribution"
+
+output_events:
+  - event_type: "trace.record.created"
+    direction: "output"
+    description: "A trace record is created and linked to attribution metadata."
+    source_layer: "layer:trace-attribution"
+    target_layer: "layer:royalty-circulation"
+
+linked_layers:
+  - layer_id: "layer:knowledge-cortex"
+    relationship: "traces"
+    description: "Traces knowledge use and retrieval."
+  - layer_id: "layer:royalty-circulation"
+    relationship: "routes_to"
+    description: "Routes attribution records to royalty circulation."
+
+trace_requirements:
+  trace_required: true
+  origin_attribution_required: true
+  permission_status_required: true
+  audit_logging_required: true
+  provenance_fields:
+    - "origin_ref"
+    - "permission_status"
+    - "trace_source"
+    - "attribution_status"
+  retention_policy: "Retain trace-attribution records for audit and dispute resolution."
+
+governance_hooks:
+  human_review_boundary: "Required when attribution is disputed, permission is restricted, or royalty routing depends on unresolved origin claims."
+  policy_refs:
+    - "docs/trace-attribution-policy.md"
+  license_policy_refs:
+    - "docs/permission-policy.md"
+  royalty_policy_refs:
+    - "docs/royalty-routing-policy.md"
+  escalation_channels:
+    - "layer:human-governance"
+    - "layer:defense-immune"
+  failure_modes:
+    - "attribution_dispute"
+    - "permission_violation"
+    - "trace_gap"
+```
+
+royalty_circulation_layer:
+layer_id: "layer:royalty-circulation"
+layer_name: "Royalty Circulation Layer"
+layer_type: "royalty_circulation_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "Value circulation, royalty routing, allocation, settlement, and public return layer."
+
+```
+circulation_scope:
+  circulation_domains:
+    - "knowledge_use"
+    - "agent_output"
+    - "human_contribution"
+    - "public_infrastructure"
+    - "governance_contribution"
+  circulation_mode: "hybrid"
+  value_unit_policy: "Represent value as credits, royalty routes, or public-return records depending on context."
+  public_return_policy: "Allocate unresolved or public-interest value to a commons or public pool."
+  human_review_required: true
+  boundary_conditions:
+    - "Do not settle disputed attribution records automatically."
+
+value_sources:
+  - source_id: "value-source:trace-attribution-records"
+    source_type: "attribution_record"
+    source_name: "Trace Attribution Records"
+    source_ref: "layer:trace-attribution"
+    measurement_method: "trace_weight"
+    trace_ref_required: true
+    trust_level: "high"
+    update_frequency: "event_driven"
+  - source_id: "value-source:human-review-score"
+    source_type: "human_review"
+    source_name: "Human Review Contribution Score"
+    source_ref: "layer:human-governance"
+    measurement_method: "human_review_score"
+    trace_ref_required: true
+    trust_level: "medium"
+    update_frequency: "manual"
+
+beneficiary_records:
+  - beneficiary_id: "beneficiary:origin-author-001"
+    beneficiary_type: "human_creator"
+    beneficiary_ref: "origin:author-001"
+    eligibility_status: "eligible"
+    return_channel: "recognition_record"
+    linked_attribution_records:
+      - "attribution-record:origin-001"
+    allocation_weight: 0.7
+    review_notes: "Eligible based on verified attribution record."
+  - beneficiary_id: "beneficiary:public-pool-001"
+    beneficiary_type: "public_pool"
+    beneficiary_ref: "pool:earth-brain-public-return"
+    eligibility_status: "eligible"
+    return_channel: "public_fund"
+    linked_attribution_records:
+      - "attribution-record:origin-001"
+    allocation_weight: 0.3
+    review_notes: "Public-return share for shared infrastructure."
+
+allocation_model:
+  allocation_method: "public_private_split"
+  weighting_policy: "Use trace weight, attribution confidence, and public-interest review."
+  dispute_policy: "Pause allocation and escalate to Human Governance Layer during disputes."
+  minimum_threshold_policy: "Do not allocate below minimum trace confidence threshold."
+  allocation_constraints:
+    - "No allocation without attribution link."
+    - "No settlement during active dispute."
+  example_split:
+    - target: "beneficiary:origin-author-001"
+      share: 0.7
+      description: "Origin return share."
+    - target: "beneficiary:public-pool-001"
+      share: 0.3
+      description: "Public return share."
+
+royalty_route_model:
+  route_strategy: "multi_route"
+  route_resolution_method: "Resolve routes from verified attribution records and beneficiary eligibility."
+  route_integrity_policy: "Route records must link back to trace and attribution records."
+  fallback_route_policy: "Route unresolved value to pending review or public pool."
+  route_records:
+    - route_id: "royalty-route:origin-to-author"
+      route_type: "origin_return"
+      source_ref: "attribution-record:origin-001"
+      target_ref: "beneficiary:origin-author-001"
+      route_status: "active"
+      linked_trace_ids:
+        - "trace:knowledge-query-001"
+    - route_id: "royalty-route:origin-to-public-pool"
+      route_type: "public_return"
+      source_ref: "attribution-record:origin-001"
+      target_ref: "beneficiary:public-pool-001"
+      route_status: "active"
+      linked_trace_ids:
+        - "trace:knowledge-query-001"
+
+settlement_model:
+  settlement_mode: "manual"
+  settlement_frequency: "on_demand"
+  verification_required: true
+  settlement_failure_policy: "Hold settlement and escalate to Human Governance Layer."
+  settlement_record_schema_ref: "schemas/layers/royalty-circulation-layer.schema.json"
+  currency_or_unit_policy: "Reference model uses non-monetary recognition records by default."
+
+circulation_controls:
+  anti_capture_policy: "Prevent concentrated extraction by requiring trace-linked public or origin return."
+  leakage_detection: "Detect use without matching attribution or return route."
+  fairness_review_required: true
+  rollback_strategy: "Rollback invalid allocation records and preserve audit trace."
+  monitoring_signals:
+    - "unallocated_value"
+    - "disputed_beneficiary"
+    - "route_failure"
+
+input_events:
+  - event_type: "royalty.route.requested"
+    direction: "input"
+    description: "A trace-linked value return route is requested."
+    source_layer: "layer:trace-attribution"
+    target_layer: "layer:royalty-circulation"
+
+output_events:
+  - event_type: "royalty.route.created"
+    direction: "output"
+    description: "A royalty or public-return route is created."
+    source_layer: "layer:royalty-circulation"
+    target_layer: "layer:kazene-regulation"
+
+linked_layers:
+  - layer_id: "layer:trace-attribution"
+    relationship: "receives_from"
+    description: "Receives attribution records for value circulation."
+  - layer_id: "layer:human-governance"
+    relationship: "governed_by"
+    description: "Governance reviews disputed allocations."
+
+trace_requirements:
+  trace_required: true
+  attribution_link_required: true
+  allocation_logging_required: true
+  settlement_logging_required: true
+  provenance_fields:
+    - "value_source"
+    - "beneficiary_id"
+    - "allocation_method"
+    - "route_id"
+  retention_policy: "Retain circulation records for audit, accountability, and dispute resolution."
+
+governance_hooks:
+  human_review_boundary: "Required for disputed beneficiaries, settlement actions, public-return allocation, or high-impact circulation decisions."
+  policy_refs:
+    - "docs/royalty-circulation-policy.md"
+  attribution_policy_refs:
+    - "docs/trace-attribution-policy.md"
+  payment_policy_refs:
+    - "docs/settlement-policy.md"
+  escalation_channels:
+    - "layer:human-governance"
+  failure_modes:
+    - "allocation_dispute"
+    - "route_failure"
+    - "value_capture"
+```
+
+kazene_regulation_layer:
+layer_id: "layer:kazene-regulation"
+layer_name: "Kazene Regulation Layer"
+layer_type: "kazene_regulation_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "Breathing, pressure release, rhythm regulation, resonance balancing, and yohaku preservation layer."
+
+```
+regulation_scope:
+  regulation_domains:
+    - "agent_behavior"
+    - "reasoning_rhythm"
+    - "knowledge_flow"
+    - "royalty_circulation"
+    - "governance_load"
+    - "defense_response"
+    - "human_interaction"
+    - "semantic_drift"
+  regulation_mode: "hybrid"
+  human_centered_priority: "high"
+  intervention_level: "soft_adjustment"
+  minimum_yohaku_policy: "Preserve pause, review space, and non-overoptimized ambiguity before critical decisions."
+  boundary_conditions:
+    - "Do not override binding human governance decisions."
+
+regulation_signals:
+  - signal_id: "regulation-signal:agent-pressure"
+    signal_type: "pressure"
+    source_layer: "layer:ai-agent"
+    measurement_method: "trace_analysis"
+    sensitivity: "medium"
+    response_policy: "Apply soft throttling and request summary compression when agent pressure rises."
+    threshold_ref: "policy:kazene-pressure-threshold"
+  - signal_id: "regulation-signal:governance-burden"
+    signal_type: "governance_burden"
+    source_layer: "layer:human-governance"
+    measurement_method: "human_feedback"
+    sensitivity: "high"
+    response_policy: "Insert review pauses and prioritize high-impact decisions."
+    threshold_ref: "policy:governance-load-threshold"
+
+breathing_model:
+  breathing_pattern: "adaptive"
+  rhythm_policy: "Alternate burst processing with review and rest intervals."
+  pause_policy: "Insert pause windows before irreversible governance, royalty, or defense actions."
+  recovery_policy: "Reduce scope and re-enter normal flow after overload signals decrease."
+  maximum_burst_duration: "bounded by governance context"
+  minimum_rest_interval: "human-review interval where needed"
+
+pressure_model:
+  pressure_sources:
+    - "agent_recursion"
+    - "decision_load"
+    - "information_density"
+    - "governance_backlog"
+    - "trace_volume"
+    - "royalty_dispute"
+    - "human_cognitive_load"
+  pressure_detection_method: "hybrid"
+  release_strategy: "insert_yohaku"
+  overload_response: "Throttle event flow and escalate to Human Governance Layer if pressure remains high."
+  pressure_threshold_policy: "Use trace volume, human feedback, and governance backlog as pressure indicators."
+
+resonance_model:
+  resonance_targets:
+    - "human_intent"
+    - "agent_output"
+    - "knowledge_context"
+    - "trace_integrity"
+    - "royalty_fairness"
+    - "governance_principle"
+    - "public_interest"
+  balance_method: "Compare cross-layer signals and slow flows when misalignment appears."
+  misalignment_response: "Request clarification, reduce autonomy, or route to human review."
+  noise_tolerance_policy: "Preserve useful ambiguity and avoid excessive filtering that removes creative or minority signals."
+  q_point_ref: "schemas/q-point.schema.json"
+
+flow_control_model:
+  flow_control_strategy: "adaptive_throttle"
+  throttle_policy: "Slow non-critical flows under high pressure while preserving defense and governance signals."
+  routing_adjustment_policy: "Route overloaded or ambiguous events to Human Governance Layer."
+  fallback_flow_policy: "Switch to manual review and minimal event processing during instability."
+  priority_classes:
+    - "normal"
+    - "high"
+    - "human_review"
+    - "safety_stop"
+
+drift_monitoring:
+  semantic_drift_detection: true
+  behavioral_drift_detection: true
+  governance_drift_detection: true
+  drift_detection_method: "hybrid"
+  drift_response_policy: "Escalate persistent drift to Defense Immune Layer and Human Governance Layer."
+  drift_threshold_ref: "policy:semantic-drift-threshold"
+
+regulation_controls:
+  soft_stop_enabled: true
+  hard_stop_enabled: false
+  human_override_enabled: true
+  cooldown_policy: "Apply cooldown after high-pressure event bursts."
+  rollback_strategy: "Rollback only through governance-approved correction flows."
+  monitoring_signals:
+    - "pressure"
+    - "semantic_drift"
+    - "human_fatigue"
+    - "governance_backlog"
+
+input_events:
+  - event_type: "kazene.regulation.requested"
+    direction: "input"
+    description: "A regulation request is triggered by high pressure or drift."
+    source_layer: "layer:royalty-circulation"
+    target_layer: "layer:kazene-regulation"
+
+output_events:
+  - event_type: "kazene.regulation.applied"
+    direction: "output"
+    description: "A breathing, throttling, or pause regulation has been applied."
+    source_layer: "layer:kazene-regulation"
+    target_layer: "layer:defense-immune"
+
+linked_layers:
+  - layer_id: "layer:royalty-circulation"
+    relationship: "regulates"
+    description: "Regulates value circulation pressure."
+  - layer_id: "layer:defense-immune"
+    relationship: "sends_to"
+    description: "Sends instability signals to defense immune monitoring."
+
+trace_requirements:
+  trace_required: true
+  regulation_logging_required: true
+  intervention_logging_required: true
+  human_feedback_logging_required: true
+  provenance_fields:
+    - "regulation_signal"
+    - "pressure_source"
+    - "intervention_level"
+    - "human_feedback"
+  retention_policy: "Retain regulation records for stability review."
+
+governance_hooks:
+  human_review_boundary: "Required when regulation pauses, throttles, or reroutes governance-critical or rights-relevant events."
+  policy_refs:
+    - "docs/kazene-regulation-policy.md"
+  regulation_policy_refs:
+    - "docs/yohaku-policy.md"
+  safety_policy_refs:
+    - "docs/system-stability-policy.md"
+  escalation_channels:
+    - "layer:human-governance"
+    - "layer:defense-immune"
+  failure_modes:
+    - "over_throttling"
+    - "missed_pressure"
+    - "loss_of_yohaku"
+```
+
+defense_immune_layer:
+layer_id: "layer:defense-immune"
+layer_name: "Defense Immune Layer"
+layer_type: "defense_immune_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "Anomaly detection, threat classification, quarantine, recovery, and immune defense layer."
+
+```
+immune_scope:
+  defense_domains:
+    - "agent_behavior"
+    - "prompt_injection"
+    - "tool_execution"
+    - "knowledge_integrity"
+    - "trace_integrity"
+    - "royalty_integrity"
+    - "governance_integrity"
+    - "semantic_drift"
+    - "misuse_prevention"
+    - "system_health"
+  immune_mode: "adaptive_immune_response"
+  protection_priority: "civilizational_resilience"
+  intervention_level: "quarantine"
+  human_review_required: true
+  boundary_conditions:
+    - "Emergency stop requires human governance confirmation unless immediate human harm risk is detected."
+
+immune_signals:
+  - signal_id: "immune-signal:prompt-injection-detected"
+    signal_type: "prompt_injection"
+    source_layer: "layer:ai-agent"
+    severity: "medium"
+    detection_method: "semantic_analysis"
+    response_policy: "Restrict tool use, log trace, and request governance review if persistent."
+    confidence_score: 0.82
+    linked_trace_ids:
+      - "trace:agent-input-001"
+  - signal_id: "immune-signal:trace-tampering-detected"
+    signal_type: "trace_tampering"
+    source_layer: "layer:trace-attribution"
+    severity: "high"
+    detection_method: "trace_analysis"
+    response_policy: "Quarantine affected trace records and escalate to Human Governance Layer."
+    confidence_score: 0.88
+    linked_trace_ids:
+      - "trace:knowledge-query-001"
+
+detection_model:
+  detection_strategy: "hybrid"
+  monitoring_frequency: "event_driven"
+  false_positive_policy: "Prefer reversible quarantine and human review for uncertain cases."
+  false_negative_policy: "Post-incident review updates detection rules and governance thresholds."
+  detection_threshold_policy: "Thresholds depend on severity, trace confidence, and human harm risk."
+  sensor_refs:
+    - "sensor:trace-integrity-check"
+    - "sensor:semantic-anomaly-check"
+
+threat_classification_model:
+  classification_method: "risk_matrix"
+  risk_levels:
+    - "informational"
+    - "low"
+    - "medium"
+    - "high"
+    - "critical"
+  classification_review_policy: "High and critical classifications require human review."
+  escalation_threshold: "high"
+  known_threat_categories:
+    - "prompt_injection"
+    - "trace_tampering"
+    - "governance_bypass"
+    - "royalty_route_abuse"
+
+response_model:
+  response_strategy: "quarantine"
+  response_timing: "after_verification"
+  allowed_responses:
+    - "log"
+    - "warn"
+    - "rate_limit"
+    - "restrict_tool"
+    - "quarantine_event"
+    - "quarantine_agent"
+    - "request_human_review"
+    - "escalate_to_governance"
+  escalation_policy: "Escalate high-risk or disputed defense responses to Human Governance Layer."
+  response_constraints:
+    - "Automatic blocking must be reversible unless critical risk is present."
+
+quarantine_model:
+  quarantine_targets:
+    - "event"
+    - "agent"
+    - "tool"
+    - "knowledge_source"
+    - "trace_record"
+    - "royalty_route"
+  quarantine_trigger_policy: "Trigger quarantine when confidence and severity exceed policy thresholds."
+  isolation_policy: "Isolate quarantined objects from normal event flow and preserve trace records."
+  release_policy: "Release only after review, correction, or risk downgrade."
+  maximum_quarantine_duration: "until human review or policy-defined timeout"
+  quarantine_review_required: true
+
+recovery_model:
+  recovery_strategy: "hybrid"
+  rollback_policy: "Rollback unsafe event state while preserving incident trace."
+  post_incident_review_policy: "Review incident cause, response quality, and governance implications."
+  learning_update_policy: "Update detection rules only through reviewed policy changes."
+  recovery_trace_required: true
+
+immune_controls:
+  auto_response_enabled: true
+  human_override_enabled: true
+  defense_court_review_enabled: true
+  adaptive_learning_enabled: false
+  safe_mode_policy: "Enter safe mode when critical events affect multiple layers."
+  monitoring_signals:
+    - "threat_severity"
+    - "trace_integrity"
+    - "quarantine_rate"
+    - "governance_escalation_rate"
+
+input_events:
+  - event_type: "defense.immune.signal.received"
+    direction: "input"
+    description: "An immune-relevant signal is received."
+    source_layer: "layer:kazene-regulation"
+    target_layer: "layer:defense-immune"
+
+output_events:
+  - event_type: "defense.immune.signal.detected"
+    direction: "output"
+    description: "A defense immune signal is detected and classified."
+    source_layer: "layer:defense-immune"
+    target_layer: "layer:human-governance"
+
+linked_layers:
+  - layer_id: "layer:kazene-regulation"
+    relationship: "receives_from"
+    description: "Receives instability and pressure signals."
+  - layer_id: "layer:human-governance"
+    relationship: "governed_by"
+    description: "Escalates high-risk defense actions to human governance."
+
+trace_requirements:
+  trace_required: true
+  immune_signal_logging_required: true
+  response_logging_required: true
+  quarantine_logging_required: true
+  recovery_logging_required: true
+  provenance_fields:
+    - "immune_signal"
+    - "severity"
+    - "response_strategy"
+    - "quarantine_target"
+  retention_policy: "Retain immune defense records for incident review."
+
+governance_hooks:
+  human_review_boundary: "Required for quarantine, rollback, blocking, emergency response, or defense actions with rights impact."
+  policy_refs:
+    - "docs/defense-immune-policy.md"
+  defense_policy_refs:
+    - "docs/incident-response-policy.md"
+  safety_policy_refs:
+    - "docs/human-safety-policy.md"
+  escalation_channels:
+    - "layer:human-governance"
+  failure_modes:
+    - "false_positive_quarantine"
+    - "missed_threat"
+    - "overblocking"
+```
+
+human_governance_layer:
+layer_id: "layer:human-governance"
+layer_name: "Human Governance Layer"
+layer_type: "human_governance_layer"
+layer_version: "v0.2.0-candidate"
+status: "experimental"
+description: "Human oversight, review, accountability, consent, appeal, public-interest, and final governance layer."
+
+```
+governance_scope:
+  governance_domains:
+    - "agent_oversight"
+    - "tool_use_approval"
+    - "knowledge_integrity"
+    - "trace_dispute"
+    - "attribution_dispute"
+    - "royalty_dispute"
+    - "kazene_regulation_review"
+    - "defense_escalation"
+    - "policy_authoring"
+    - "public_interest_review"
+    - "human_rights_safeguard"
+  governance_mode: "hybrid"
+  authority_level: "veto_authority"
+  accountability_priority: "public_interest"
+  human_review_required: true
+  boundary_conditions:
+    - "Human governance must preserve traceability and provide rationale for binding decisions."
+
+governance_bodies:
+  - body_id: "governance-body:human-review-board"
+    body_type: "review_board"
+    body_name: "Earth Brain Human Review Board"
+    authority_scope:
+      - "observe"
+      - "review"
+      - "approve"
+      - "reject"
+      - "veto"
+      - "pause"
+      - "rollback"
+      - "escalate"
+    decision_rights: "binding_decision"
+    accountability_status: "audited"
+    contact_or_registry_ref: "registry:human-review-board"
+    conflict_of_interest_policy: "Members must disclose conflicts before reviewing attribution, royalty, or defense cases."
+  - body_id: "governance-body:public-interest-council"
+    body_type: "public_interest_council"
+    body_name: "Public Interest Council"
+    authority_scope:
+      - "review"
+      - "recommend"
+      - "escalate"
+    decision_rights: "recommend"
+    accountability_status: "representative"
+    contact_or_registry_ref: "registry:public-interest-council"
+    conflict_of_interest_policy: "Public-interest decisions require transparent rationale."
+
+decision_records:
+  - decision_id: "governance-decision:approve-modular-event-example"
+    decision_type: "approval"
+    decision_status: "approved"
+    subject_ref: "earth-brain-event:v0.2-example-001"
+    authority_ref: "governance-body:human-review-board"
+    rationale: "The example includes all eight modular layers with trace, governance, defense, regulation, and value circulation controls."
+    linked_trace_ids:
+      - "trace:governance-review-001"
+    effective_time: "2026-06-13T00:00:00Z"
+
+review_model:
+  review_method: "board_review"
+  review_trigger_policy: "Trigger review for high-impact agent actions, disputes, defense escalations, or public-interest decisions."
+  review_timing: "on_escalation"
+  review_outcome_policy: "Approved outcomes become binding records; rejected outcomes are routed to correction or appeal."
+  minimum_reviewers: 1
+  review_time_limit: "policy-defined"
+
+accountability_model:
+  responsibility_assignment: "Assign responsibility to the governance body that approves, rejects, vetoes, or escalates a decision."
+  auditability_required: true
+  explanation_required: true
+  liability_boundary_policy: "Responsibility boundaries are defined by role, decision authority, and trace evidence."
+  accountability_records:
+    - record_id: "accountability-record:review-board-v0.2"
+      responsible_party_ref: "governance-body:human-review-board"
+      responsibility_type: "review_responsibility"
+      scope: "Review and approve modular event architecture examples."
+      review_cycle: "per release candidate"
+
+consent_model:
+  consent_required: true
+  consent_scope_policy: "Consent is required for human data, identifiable contribution records, and public attribution where applicable."
+  withdrawal_policy: "Withdrawal requests are reviewed and reflected through versioned trace updates where possible."
+  consent_record_policy: "Consent records must be traceable, updateable, and auditable."
+  consent_status_values:
+    - "unknown"
+    - "not_required"
+    - "requested"
+    - "granted"
+    - "limited"
+    - "withdrawn"
+    - "expired"
+    - "disputed"
+
+appeal_model:
+  appeal_allowed: true
+  appeal_trigger_policy: "Appeals may be filed for rejected claims, disputed attribution, blocked routes, or quarantine decisions."
+  appeal_review_body: "governance-body:human-review-board"
+  appeal_resolution_policy: "Appeals require rationale, trace evidence, and documented outcome."
+  appeal_time_limit: "policy-defined"
+
+public_interest_controls:
+  public_interest_review_required: true
+  rights_impact_assessment_required: true
+  transparency_report_required: false
+  anti_capture_policy: "Prevent concentrated governance capture through traceable review and public-interest escalation."
+  minority_or_edge_case_protection: "Preserve minority signals and edge cases through appeal and public-interest review."
+  public_record_policy: "Publish high-level governance summaries while redacting sensitive details."
+
+input_events:
+  - event_type: "human.governance.review.requested"
+    direction: "input"
+    description: "A human governance review is requested."
+    source_layer: "layer:defense-immune"
+    target_layer: "layer:human-governance"
+
+output_events:
+  - event_type: "human.governance.decision.recorded"
+    direction: "output"
+    description: "A human governance decision is recorded."
+    source_layer: "layer:human-governance"
+    target_layer: "layer:ai-agent"
+
+linked_layers:
+  - layer_id: "layer:defense-immune"
+    relationship: "reviews"
+    description: "Reviews high-risk immune defense escalations."
+  - layer_id: "layer:ai-agent"
+    relationship: "governs"
+    description: "Governs bounded AI agent behavior."
+
+trace_requirements:
+  trace_required: true
+  decision_logging_required: true
+  review_logging_required: true
+  accountability_logging_required: true
+  appeal_logging_required: true
+  provenance_fields:
+    - "decision_id"
+    - "authority_ref"
+    - "rationale"
+    - "subject_ref"
+  retention_policy: "Retain governance records for accountability and audit."
+
+governance_hooks:
+  human_review_boundary: "This layer is the final review boundary for governance-relevant events."
+  policy_refs:
+    - "docs/human-governance-policy.md"
+  constitutional_refs:
+    - "docs/earth-brain-governance-principles.md"
+  rights_policy_refs:
+    - "docs/public-interest-policy.md"
+  escalation_channels:
+    - "manual_review"
+    - "external_review"
+  failure_modes:
+    - "unaccountable_decision"
+    - "missing_rationale"
+    - "governance_capture"
+```
+
+cross_layer_links:
+
+* link_id: "cross-layer-link:agent-to-knowledge"
+  source_layer: "ai_agent_layer"
+  target_layer: "knowledge_cortex_layer"
+  relationship: "queries"
+  description: "AI agents query the Knowledge Cortex Layer for validated context."
+  event_types:
+
+  * "knowledge.query.requested"
+    required: true
+* link_id: "cross-layer-link:knowledge-to-trace"
+  source_layer: "knowledge_cortex_layer"
+  target_layer: "trace_attribution_layer"
+  relationship: "traces"
+  description: "Knowledge use is traced and attributed before downstream circulation."
+  event_types:
+
+  * "trace.record.requested"
+  * "trace.record.created"
+    required: true
+* link_id: "cross-layer-link:trace-to-royalty"
+  source_layer: "trace_attribution_layer"
+  target_layer: "royalty_circulation_layer"
+  relationship: "allocates_for"
+  description: "Attribution records are routed into value circulation."
+  event_types:
+
+  * "royalty.route.requested"
+  * "royalty.route.created"
+    required: true
+* link_id: "cross-layer-link:royalty-to-kazene"
+  source_layer: "royalty_circulation_layer"
+  target_layer: "kazene_regulation_layer"
+  relationship: "regulates"
+  description: "Kazene Regulation Layer moderates pressure and imbalance in value circulation."
+  event_types:
+
+  * "kazene.regulation.requested"
+  * "kazene.regulation.applied"
+    required: true
+* link_id: "cross-layer-link:kazene-to-defense"
+  source_layer: "kazene_regulation_layer"
+  target_layer: "defense_immune_layer"
+  relationship: "protects"
+  description: "Regulation signals feed immune monitoring when instability or drift appears."
+  event_types:
+
+  * "defense.immune.signal.received"
+  * "defense.immune.signal.detected"
+    required: true
+* link_id: "cross-layer-link:defense-to-governance"
+  source_layer: "defense_immune_layer"
+  target_layer: "human_governance_layer"
+  relationship: "escalates_to"
+  description: "Defense immune events escalate to human governance when risk or rights impact is significant."
+  event_types:
+
+  * "human.governance.review.requested"
+  * "human.governance.decision.recorded"
+    required: true
+* link_id: "cross-layer-link:governance-to-agent"
+  source_layer: "human_governance_layer"
+  target_layer: "ai_agent_layer"
+  relationship: "governs"
+  description: "Human governance decisions constrain future AI agent behavior."
+  event_types:
+
+  * "agent.task.requested"
+    required: true
+
+integration_policy:
+layer_validation_required: true
+cross_layer_consistency_required: true
+missing_layer_policy: "reject_event"
+version_alignment_policy: "All layer schemas should align with v0.2.0-candidate unless explicitly marked as compatible."
+failure_policy: "Reject invalid integrated events and preserve validation failure traces."
+future_lifecycle_ref: "schemas/earth-brain-lifecycle.schema.json"
+
+trace_requirements:
+trace_required: true
+layer_trace_required: true
+cross_layer_trace_required: true
+provenance_required: true
+minimum_provenance_fields:
+- "event_id"
+- "layer_id"
+- "source_layer"
+- "target_layer"
+- "created_at"
+retention_policy: "Retain integrated event traces for audit, governance, attribution, and release validation."
+
+governance_hooks:
+human_review_boundary: "Human review is required for high-impact, disputed, defense-critical, or public-interest events."
+governance_layer_required: true
+policy_refs:
+- "docs/human-governance-policy.md"
+- "docs/trace-attribution-policy.md"
+- "docs/royalty-circulation-policy.md"
+constitutional_refs:
+- "docs/earth-brain-governance-principles.md"
+escalation_channels:
+- "kazene_regulation_layer"
+- "defense_immune_layer"
+- "human_governance_layer"
+- "manual_review"
+failure_modes:
+- "missing_layer"
+- "cross_layer_inconsistency"
+- "untraced_event"
+- "governance_bypass"
+
