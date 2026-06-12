@@ -1,0 +1,59 @@
+event_id: "earth-brain-event-2026-001"
+event_type: "integrated_flow"
+created_at: "2026-06-13T00:00:00Z"
+summary: "An integrated Earth Brain OS flow connecting an AI-assisted OSS contribution, knowledge trace, Kazene regulation, human governance review, and royalty circulation."
+
+ai_agent_layer:
+agent_id: "agent:coding-assistant-001"
+agent_type: "coding_agent"
+role: "generator"
+human_supervision: "human_initiated"
+
+optical_nervous_layer:
+network_type: "standard_internet"
+latency_sensitivity: "medium"
+energy_awareness: "considered"
+
+knowledge_cortex_layer:
+source_type: "oss_repository"
+source_ref: "github.com/example/project"
+usage_type: "coded_from"
+
+trace_attribution_layer:
+trace_id: "trace:earth-brain-2026-001"
+origin_ref: "github.com/example/project/issues/42"
+contributor_ref: "human:maintainer-001"
+attribution_status: "recorded"
+trace_confidence: 0.91
+
+royalty_circulation_layer:
+royalty_required: true
+value_route_id: "value-route:earth-brain-2026-001"
+return_type: "credit"
+circulation_status: "routed"
+
+kazene_regulation_layer:
+pressure_level: "medium"
+pressure_type: "agentic_contribution_pressure"
+trust_route: "human_review"
+regulation_action: "route_trust"
+
+defense_immune_layer:
+risk_level: "low"
+review_status: "pending"
+defense_action: "monitor"
+
+human_governance_layer:
+human_review_required: true
+reviewer_ref: "human:maintainer-001"
+governance_status: "pending"
+decision_note: "The AI-assisted contribution is routed to a human maintainer because it modifies OSS code and may affect downstream users."
+
+lifecycle_status: "trust_route_assigned"
+
+related_events:
+
+* "trace:earth-brain-2026-001"
+* "value-route:earth-brain-2026-001"
+
+notes: "This example demonstrates the minimal Earth Brain OS lifecycle: AI contribution, knowledge usage, trace generation, Kazene pressure routing, human governance review, and value circulation."
