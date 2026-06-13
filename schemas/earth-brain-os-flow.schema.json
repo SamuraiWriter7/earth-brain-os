@@ -1,0 +1,539 @@
+{
+"$schema": "https://json-schema.org/draft/2020-12/schema",
+"$id": "https://samuraiwriter7.github.io/earth-brain-os/schemas/earth-brain-os-flow.schema.json",
+"title": "Earth Brain OS Flow",
+"description": "A schema for recording an integrated Earth Brain OS flow across AI agents, optical networks, knowledge sources, trace and attribution, royalty circulation, Kazene regulation, defense review, and human governance.",
+"type": "object",
+"additionalProperties": false,
+"required": [
+"event_id",
+"event_type",
+"created_at",
+"summary",
+"ai_agent_layer",
+"optical_nervous_layer",
+"knowledge_cortex_layer",
+"trace_attribution_layer",
+"royalty_circulation_layer",
+"kazene_regulation_layer",
+"defense_immune_layer",
+"human_governance_layer",
+"lifecycle_status"
+],
+"properties": {
+"event_id": {
+"type": "string",
+"description": "A unique identifier for the Earth Brain OS flow event.",
+"minLength": 1,
+"examples": [
+"earth-brain-event-2026-001"
+]
+},
+"event_type": {
+"type": "string",
+"description": "The type of Earth Brain OS flow.",
+"enum": [
+"agentic_contribution",
+"knowledge_usage",
+"trace_generation",
+"attribution_routing",
+"royalty_circulation",
+"kazene_regulation",
+"defense_review",
+"human_governance_review",
+"integrated_flow"
+]
+},
+"created_at": {
+"type": "string",
+"description": "The creation timestamp of the flow in ISO 8601 format.",
+"format": "date-time",
+"examples": [
+"2026-06-13T00:00:00Z"
+]
+},
+"summary": {
+"type": "string",
+"description": "A short human-readable summary of the Earth Brain OS flow.",
+"minLength": 1
+},
+"flow_stage": {
+"type": "string",
+"description": "The high-level stage of the Earth Brain OS flow.",
+"enum": [
+"intake",
+"trace",
+"attribution",
+"regulation",
+"defense_review",
+"human_review",
+"royalty_routing",
+"feedback",
+"closed",
+"unknown"
+]
+},
+"ai_agent_layer": {
+"type": "object",
+"description": "Information about the AI agent or agents involved in the flow.",
+"additionalProperties": false,
+"required": [
+"agent_id",
+"agent_type",
+"role"
+],
+"properties": {
+"agent_id": {
+"type": "string",
+"description": "Identifier of the AI agent or system involved.",
+"minLength": 1
+},
+"agent_type": {
+"type": "string",
+"description": "The type of AI agent involved.",
+"enum": [
+"llm_agent",
+"coding_agent",
+"research_agent",
+"review_agent",
+"personal_ai",
+"enterprise_ai",
+"local_ai",
+"robotic_ai",
+"multi_agent_system",
+"unknown"
+]
+},
+"role": {
+"type": "string",
+"description": "The role played by the AI agent in this flow.",
+"enum": [
+"generator",
+"reviewer",
+"router",
+"summarizer",
+"validator",
+"monitor",
+"coordinator",
+"assistant",
+"unknown"
+]
+},
+"human_supervision": {
+"type": "string",
+"description": "The level of human supervision applied to the AI agent activity.",
+"enum": [
+"none",
+"light_review",
+"standard_review",
+"strict_review",
+"human_initiated",
+"human_approved",
+"unknown"
+]
+}
+}
+},
+"optical_nervous_layer": {
+"type": "object",
+"description": "Information about communication, network, or synchronization infrastructure involved in the flow.",
+"additionalProperties": false,
+"required": [
+"network_type",
+"latency_sensitivity",
+"energy_awareness"
+],
+"properties": {
+"network_type": {
+"type": "string",
+"description": "The type of network or communication infrastructure involved.",
+"enum": [
+"optical_network",
+"all_photonics_network",
+"inter_data_center_network",
+"edge_cloud_network",
+"standard_internet",
+"local_network",
+"unknown",
+"not_applicable"
+]
+},
+"latency_sensitivity": {
+"type": "string",
+"description": "The degree to which the flow depends on low-latency communication.",
+"enum": [
+"low",
+"medium",
+"high",
+"critical",
+"unknown",
+"not_applicable"
+]
+},
+"energy_awareness": {
+"type": "string",
+"description": "Whether energy efficiency was considered in routing, computation, or synchronization.",
+"enum": [
+"not_considered",
+"considered",
+"optimized",
+"unknown",
+"not_applicable"
+]
+}
+}
+},
+"knowledge_cortex_layer": {
+"type": "object",
+"description": "Information about the knowledge archive, repository, dataset, or source used in the flow.",
+"additionalProperties": false,
+"required": [
+"source_type",
+"source_ref",
+"usage_type"
+],
+"properties": {
+"source_type": {
+"type": "string",
+"description": "The type of knowledge source involved.",
+"enum": [
+"oss_repository",
+"documentation",
+"article",
+"book",
+"paper",
+"dataset",
+"personal_knowledge_base",
+"public_archive",
+"conversation",
+"unknown"
+]
+},
+"source_ref": {
+"type": "string",
+"description": "A reference to the source, such as a repository path, URL, document ID, or internal reference.",
+"minLength": 1
+},
+"usage_type": {
+"type": "string",
+"description": "How the knowledge source was used.",
+"enum": [
+"read",
+"referenced",
+"quoted",
+"summarized",
+"transformed",
+"translated",
+"remixed",
+"coded_from",
+"reviewed",
+"unknown"
+]
+}
+}
+},
+"trace_attribution_layer": {
+"type": "object",
+"description": "Trace and attribution information for the flow.",
+"additionalProperties": false,
+"required": [
+"trace_id",
+"attribution_status"
+],
+"properties": {
+"trace_id": {
+"type": "string",
+"description": "Identifier of the trace record associated with this flow.",
+"minLength": 1
+},
+"origin_ref": {
+"type": "string",
+"description": "Reference to the origin or upstream contribution, if known."
+},
+"contributor_ref": {
+"type": "string",
+"description": "Reference to the contributor, creator, maintainer, or agent associated with the source."
+},
+"attribution_status": {
+"type": "string",
+"description": "The attribution status of the flow.",
+"enum": [
+"not_required",
+"pending",
+"recorded",
+"partial",
+"disputed",
+"unknown"
+]
+},
+"trace_confidence": {
+"type": "number",
+"description": "Confidence score for the trace and attribution record.",
+"minimum": 0,
+"maximum": 1
+}
+}
+},
+"royalty_circulation_layer": {
+"type": "object",
+"description": "Information about value return, royalty circulation, or contribution reward.",
+"additionalProperties": false,
+"required": [
+"royalty_required",
+"return_type",
+"circulation_status"
+],
+"properties": {
+"royalty_required": {
+"type": "boolean",
+"description": "Whether this flow requires royalty or value circulation handling."
+},
+"value_route_id": {
+"type": "string",
+"description": "Identifier for the value return or royalty route."
+},
+"return_type": {
+"type": "string",
+"description": "The type of return associated with the flow.",
+"enum": [
+"none",
+"credit",
+"citation",
+"reputation",
+"monetary",
+"governance_right",
+"visibility",
+"access",
+"review_priority",
+"unknown"
+]
+},
+"circulation_status": {
+"type": "string",
+"description": "The current status of royalty or value circulation.",
+"enum": [
+"not_required",
+"pending",
+"routed",
+"completed",
+"blocked",
+"disputed",
+"unknown"
+]
+}
+}
+},
+"kazene_regulation_layer": {
+"type": "object",
+"description": "Kazene-style distributed regulation information for pressure diffusion, trust routing, and flow control.",
+"additionalProperties": false,
+"required": [
+"pressure_level",
+"pressure_type",
+"trust_route",
+"regulation_action"
+],
+"properties": {
+"pressure_level": {
+"type": "string",
+"description": "The level of pressure or overload created by the flow.",
+"enum": [
+"low",
+"medium",
+"high",
+"critical",
+"unknown"
+]
+},
+"pressure_type": {
+"type": "string",
+"description": "The primary type of pressure observed.",
+"enum": [
+"agentic_contribution_pressure",
+"review_overload",
+"oss_maintainer_load",
+"ai_generated_noise",
+"attribution_loss",
+"centralization_pressure",
+"value_extraction",
+"none",
+"unknown"
+]
+},
+"trust_route": {
+"type": "string",
+"description": "The route assigned by the Kazene Regulation Layer.",
+"enum": [
+"auto_accept",
+"auto_check",
+"ai_review",
+"human_review",
+"strict_human_review",
+"quarantine",
+"reject",
+"delay",
+"escalate",
+"unknown"
+]
+},
+"regulation_action": {
+"type": "string",
+"description": "The regulation action applied to the flow.",
+"enum": [
+"observe",
+"record_trace",
+"diffuse_pressure",
+"route_trust",
+"slow_down",
+"escalate_review",
+"block_flow",
+"circulate_value",
+"none",
+"unknown"
+]
+}
+}
+},
+"defense_immune_layer": {
+"type": "object",
+"description": "Defense, review, or immune response information for the flow.",
+"additionalProperties": false,
+"required": [
+"risk_level",
+"review_status",
+"defense_action"
+],
+"properties": {
+"risk_level": {
+"type": "string",
+"description": "The assessed risk level of the flow.",
+"enum": [
+"low",
+"medium",
+"high",
+"critical",
+"unknown",
+"not_assessed"
+]
+},
+"review_status": {
+"type": "string",
+"description": "The status of defense or governance review.",
+"enum": [
+"not_required",
+"pending",
+"in_review",
+"approved",
+"rejected",
+"escalated",
+"blocked",
+"unknown"
+]
+},
+"defense_action": {
+"type": "string",
+"description": "The defense or immune action applied.",
+"enum": [
+"none",
+"monitor",
+"flag",
+"escalate",
+"quarantine",
+"block",
+"request_human_review",
+"unknown"
+]
+}
+}
+},
+"human_governance_layer": {
+"type": "object",
+"description": "Human judgment, review, responsibility, and governance information for the flow.",
+"additionalProperties": false,
+"required": [
+"human_review_required",
+"governance_status"
+],
+"properties": {
+"human_review_required": {
+"type": "boolean",
+"description": "Whether human review is required for this flow."
+},
+"reviewer_ref": {
+"type": "string",
+"description": "Reference to the human reviewer, maintainer, governance body, or responsible actor."
+},
+"governance_status": {
+"type": "string",
+"description": "The governance status of the flow.",
+"enum": [
+"not_required",
+"pending",
+"reviewed",
+"approved",
+"rejected",
+"escalated",
+"disputed",
+"unknown"
+]
+},
+"decision_note": {
+"type": "string",
+"description": "A human-readable note explaining the governance decision."
+}
+}
+},
+"lifecycle_status": {
+"type": "string",
+"description": "The current lifecycle status of the Earth Brain OS flow.",
+"enum": [
+"contribution_created",
+"source_detected",
+"agent_involvement_recorded",
+"trace_generated",
+"attribution_route_created",
+"pressure_level_evaluated",
+"trust_route_assigned",
+"review_completed",
+"royalty_route_generated",
+"value_returned",
+"feedback_recorded",
+"closed"
+]
+},
+"flow_sequence": {
+"type": "array",
+"description": "Ordered lifecycle steps included in this Earth Brain OS flow.",
+"items": {
+"type": "string",
+"enum": [
+"contribution_created",
+"source_detected",
+"agent_involvement_recorded",
+"trace_generated",
+"attribution_route_created",
+"pressure_level_evaluated",
+"trust_route_assigned",
+"review_completed",
+"royalty_route_generated",
+"value_returned",
+"feedback_recorded",
+"closed"
+]
+},
+"uniqueItems": true
+},
+"related_events": {
+"type": "array",
+"description": "References to related Earth Brain OS events, traces, value routes, or governance records.",
+"items": {
+"type": "string"
+},
+"uniqueItems": true
+},
+"notes": {
+"type": "string",
+"description": "Additional notes about the Earth Brain OS flow."
+}
+}
+}
