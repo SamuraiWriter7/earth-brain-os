@@ -138,7 +138,7 @@
 "architecture_version": {
 "type": "string",
 "description": "Architecture version or release profile.",
-"pattern": "^v?\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$",
+"pattern": "^v?\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.-]+)?$",
 "examples": [
 "v0.2.0-candidate"
 ]
